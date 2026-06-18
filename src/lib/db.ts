@@ -201,19 +201,21 @@ export const updateStreak = async (userId: string, type: 'daily' | 'weekly') => 
   const field = type === 'daily' ? 'streak_daily' : 'streak_weekly';
   const { data: user } = await supabase
     .from('users')
-    .select(field)
+    .select('streak_daily, streak_weekly, streak_best')
     .eq('id', userId)
     .single();
 
-  const current = user?.[field] || 0;
+  const current = (user as any)?.[field] || 0;
   const newStreak = current + 1;
+
+  const updateData: Record<string, number> = { [field]: newStreak };
+  if (type === 'daily' && newStreak > ((user as any)?.streak_best || 0)) {
+    updateData.streak_best = newStreak;
+  }
 
   const { error } = await supabase
     .from('users')
-    .update({
-      [field]: newStreak,
-      ...(type === 'daily' && newStreak > (user?.streak_best || 0) ? { streak_best: newStreak } : {})
-    })
+    .update(updateData)
     .eq('id', userId);
 
   return { newStreak, error };
