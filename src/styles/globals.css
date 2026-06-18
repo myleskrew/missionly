@@ -1,0 +1,40 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #1a1a2e;
+  --ink-soft:   #2d2d50;
+  --slate:      #4a4a6a;
+  --mist:       #9090b0;
+  --ivory:      #faf9f6;
+  --paper:      #f2f0eb;
+  --paper-dk:   #e8e5de;
+  --gold:       #c9a84c;
+  --gold-light: #e8d5a3;
+  --gold-dim:   rgba(201,168,76,0.15);
+  --sage:       #6b8f71;
+  --sage-dim:   rgba(107,143,113,0.12);
+  --rose:       #c47a7a;
+  --night:      #0f0f1e;
+  --white:      #ffffff;
+
+  --ff-display: 'DM Serif Display', serif;
+  --ff-body:    'Inter', sans-serif;
+  --ff-accent:  'Lora', serif;
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--ff-body);
+  background: var(--ivory);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
