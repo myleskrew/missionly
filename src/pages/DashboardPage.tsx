@@ -138,7 +138,7 @@ export default function DashboardPage() {
         .dash-bottom-nav {
           display: none;
           position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-          background: rgba(26,26,46,0.96);
+          background: rgba(26,26,46,0.65);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-top: 1px solid rgba(255,255,255,0.06);
