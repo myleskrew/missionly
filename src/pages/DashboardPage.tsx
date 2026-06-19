@@ -142,7 +142,7 @@ export default function DashboardPage() {
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-top: 1px solid rgba(255,255,255,0.06);
-          padding: 0.35rem 0 calc(0.35rem + env(safe-area-inset-bottom));
+          padding: 0.2rem 0 calc(0.2rem + env(safe-area-inset-bottom));
           justify-content: space-around; align-items: center;
         }
         .dash-bottom-nav a {
