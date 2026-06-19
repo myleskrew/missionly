@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { getDashboardData, updatePriorityStatus } from '../lib/db';
 import { DashboardSummary, DailyPriority } from '../types';
 import { useEli } from '../hooks/useEli';
 import { EliPanel } from '../components/eli/EliPanel';
+import { startCheckout } from '../lib/stripe';
 
 export default function DashboardPage() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [upgraded, setUpgraded] = useState(false);
   const [data, setData] = useState<DashboardSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
@@ -22,6 +27,23 @@ export default function DashboardPage() {
       setLoading(false);
     });
   }, [user]);
+
+  useEffect(() => {
+    if (location.search.includes('upgraded=true')) {
+      setUpgraded(true);
+      navigate('/dashboard', { replace: true });
+    }
+  }, [location, navigate]);
+
+  const handleUpgrade = async (annual: boolean) => {
+    if (!user) return;
+    setCheckoutLoading(true);
+    try {
+      await startCheckout(user.id, user.email!, annual);
+    } catch {
+      setCheckoutLoading(false);
+    }
+  };
 
   const togglePriority = async (priority: DailyPriority) => {
     const next = priority.status === 'pending' ? 'done' : 'pending';
@@ -292,6 +314,36 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Upgraded toast */}
+        {upgraded && (
+          <div style={{ marginTop: '1.5rem', background: 'var(--sage)', borderRadius: 12, padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '1.25rem' }}>🎉</span>
+              <div>
+                <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.95rem' }}>Welcome to Pro!</div>
+                <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>You now have full access to Eli and all features.</div>
+              </div>
+            </div>
+            <button onClick={() => setUpgraded(false)} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '1.1rem' }}>×</button>
+          </div>
+        )}
+
+        {/* Upgrade banner for free users */}
+        {data && (data.user as any)?.plan !== 'pro' && (
+          <div style={{ marginTop: '1.5rem', background: 'var(--ink)', borderRadius: 12, padding: '1.25rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(201,168,76,0.2)' }}>
+            <div>
+              <div style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '0.95rem' }}>✦ Unlock Missionly Pro</div>
+              <div style={{ color: 'var(--mist)', fontSize: '0.8rem', marginTop: '0.2rem' }}>Get full access to Eli, planning history, and streaks — $9/mo</div>
+            </div>
+            <button
+              onClick={() => setShowUpgradeModal(true)}
+              style={{ background: 'var(--gold)', border: 'none', borderRadius: 8, padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.875rem', color: 'var(--ink)', cursor: 'pointer', flexShrink: 0 }}
+            >
+              Upgrade →
+            </button>
+          </div>
+        )}
+
         {/* Evening Reflection banner */}
         {hour >= 17 && (
           <div onClick={() => navigate('/reflection')} style={{
@@ -308,6 +360,46 @@ export default function DashboardPage() {
           </div>
         )}
       </main>
+
+      {/* ── Upgrade Modal ── */}
+      {showUpgradeModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }} onClick={() => setShowUpgradeModal(false)}>
+          <div style={{ background: 'var(--ink)', borderRadius: 16, padding: '2.5rem', maxWidth: 420, width: '100%', border: '1px solid rgba(201,168,76,0.25)' }} onClick={e => e.stopPropagation()}>
+            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+              <div style={{ fontFamily: 'var(--ff-display)', fontSize: '1.75rem', color: '#fff', marginBottom: '0.5rem' }}>
+                Upgrade to <span style={{ color: 'var(--gold)' }}>Pro</span>
+              </div>
+              <p style={{ color: 'var(--mist)', fontSize: '0.875rem', lineHeight: 1.6 }}>Everything you need to live with intention — unlocked.</p>
+            </div>
+
+            <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1.75rem' }}>
+              {['Eli AI coach — unlimited chats','Full daily & evening planning','Planning history & streaks','Weekly role review','Priority support'].map(f => (
+                <li key={f} style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.75)' }}>
+                  <span style={{ color: 'var(--gold)', fontWeight: 700 }}>✓</span>{f}
+                </li>
+              ))}
+            </ul>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <button
+                onClick={() => handleUpgrade(false)}
+                disabled={checkoutLoading}
+                style={{ background: 'var(--gold)', border: 'none', borderRadius: 10, padding: '0.875rem', fontWeight: 700, fontSize: '0.95rem', color: 'var(--ink)', cursor: 'pointer', opacity: checkoutLoading ? 0.7 : 1 }}
+              >
+                {checkoutLoading ? 'Redirecting...' : '$9 / month →'}
+              </button>
+              <button
+                onClick={() => handleUpgrade(true)}
+                disabled={checkoutLoading}
+                style={{ background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 10, padding: '0.875rem', fontWeight: 600, fontSize: '0.875rem', color: 'var(--gold)', cursor: 'pointer', opacity: checkoutLoading ? 0.7 : 1 }}
+              >
+                $79 / year — save $29
+              </button>
+            </div>
+            <p style={{ textAlign: 'center', color: 'var(--mist)', fontSize: '0.75rem', marginTop: '1rem' }}>Cancel anytime · Powered by Stripe</p>
+          </div>
+        </div>
+      )}
 
       {/* ── Eli floating panel ── */}
       <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 50 }}>
