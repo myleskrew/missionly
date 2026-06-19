@@ -40,8 +40,7 @@ export const useEli = (options: UseEliOptions) => {
       }]);
       setReady(true);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options.user?.id, options.sessionType]);
+  }, [options.user?.id, options.sessionType]); // eslint-disable-line
 
   const sendMessage = useCallback(async (content: string) => {
     if (!content.trim() || loading) return;
