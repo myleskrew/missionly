@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './hooks/useAuth';
+import { AddToHomeScreen } from './components/AddToHomeScreen';
 import './styles/globals.css';
 
 // Pages — lazy loaded for performance
@@ -33,6 +34,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <AddToHomeScreen />
         <React.Suspense fallback={
           <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100vh', background:'var(--ivory)' }}>
             <div style={{ fontFamily:'var(--ff-display)', fontSize:'1.5rem', color:'var(--ink)' }}>
