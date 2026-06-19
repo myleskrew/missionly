@@ -210,7 +210,7 @@ export default function DashboardPage() {
       {/* ── Bottom nav (mobile only) ── */}
       <nav className="dash-bottom-nav">
         {[
-          { to: '/dashboard', icon: '⬛', label: 'Home' },
+          { to: '/dashboard', icon: '🏠', label: 'Home' },
           { to: '/daily-plan', icon: '☀️', label: 'Daily' },
           { to: '/weekly-plan', icon: '📅', label: 'Weekly' },
           { to: '/reflection', icon: '🌙', label: 'Reflect' },
