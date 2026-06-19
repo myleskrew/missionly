@@ -1,22 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
 
 export default function LandingPage() {
   const [annual, setAnnual] = useState(false);
-  const [email, setEmail] = useState('');
-  const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const handleEarlyAccess = async () => {
-    if (!email.trim() || !email.includes('@')) return;
-    setSubmitState('loading');
-    const { error } = await supabase.from('early_access').insert({ email: email.trim().toLowerCase() });
-    if (error && error.code !== '23505') { // 23505 = duplicate, treat as success
-      setSubmitState('error');
-    } else {
-      setSubmitState('success');
-    }
-  };
   return (
     <div style={{ fontFamily: 'var(--ff-body)', color: 'var(--ink)', overflowX: 'hidden' }}>
       <style>{`
@@ -76,7 +62,7 @@ export default function LandingPage() {
           <a href="#how" className="nav-link">How it works</a>
           <a href="#eli" className="nav-link">Meet Eli</a>
           <a href="#pricing" className="nav-link">Pricing</a>
-          <Link to="/signin" className="nav-link nav-cta">Get early access</Link>
+          <Link to="/signup" className="nav-link nav-cta">Get started free</Link>
         </div>
         {/* Mobile-only CTA */}
         <Link className="nav-mobile-cta" to="/signin" style={{ display:'none',background:'var(--ink)',color:'#fff',textDecoration:'none',padding:'0.45rem 1rem',borderRadius:6,fontSize:'0.825rem',fontWeight:600 }}>
@@ -419,48 +405,24 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* EMAIL CAPTURE */}
+      {/* CTA SECTION */}
       <section id="early" className="section-pad" style={{ textAlign:'center' }}>
         <div style={{ maxWidth:1000,margin:'0 auto' }}>
           <div style={{ background:'var(--ink)',borderRadius:20,padding:'4rem 2rem',position:'relative',overflow:'hidden' }}>
             <div style={{ position:'absolute',top:-80,right:-80,width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(201,168,76,0.12),transparent 70%)',pointerEvents:'none' }} />
-            <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'#fff',marginBottom:'1rem' }}>Be first in.</h2>
+            <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'#fff',marginBottom:'1rem' }}>Start living with intention.</h2>
             <p style={{ fontSize:'1rem',color:'rgba(255,255,255,0.55)',maxWidth:440,lineHeight:1.7,margin:'0.75rem auto 2.5rem' }}>
-              Missionly is in early access. Join the list and get lifetime Pro pricing locked in before we launch publicly.
+              Free to start. Upgrade when you're ready for daily planning, evening reflection, and Eli.
             </p>
-            {submitState === 'success' ? (
-              <div style={{ display:'flex',flexDirection:'column',alignItems:'center',gap:'0.75rem',marginTop:'0.5rem' }}>
-                <div style={{ width:48,height:48,borderRadius:'50%',background:'var(--sage)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.4rem' }}>✓</div>
-                <p style={{ color:'#fff',fontWeight:600,fontSize:'1rem' }}>You're on the list!</p>
-                <p style={{ color:'rgba(255,255,255,0.45)',fontSize:'0.825rem' }}>We'll reach out when early access opens.</p>
-              </div>
-            ) : (
-              <>
-                <div className="email-form-wrap" style={{ display:'flex',gap:'0.75rem',maxWidth:460,margin:'0 auto',flexWrap:'wrap',justifyContent:'center' }}>
-                  <input
-                    className="email-input"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && handleEarlyAccess()}
-                    disabled={submitState === 'loading'}
-                  />
-                  <button
-                    className="email-btn"
-                    onClick={handleEarlyAccess}
-                    disabled={submitState === 'loading'}
-                    style={{ opacity: submitState === 'loading' ? 0.7 : 1 }}
-                  >
-                    {submitState === 'loading' ? 'Saving...' : 'Get early access'}
-                  </button>
-                </div>
-                {submitState === 'error' && (
-                  <p style={{ color:'#f87171',fontSize:'0.8rem',marginTop:'0.75rem' }}>Something went wrong — try again.</p>
-                )}
-                <p style={{ fontSize:'0.75rem',color:'rgba(255,255,255,0.3)',marginTop:'1rem' }}>No spam. Just a note when we're ready for you.</p>
-              </>
-            )}
+            <div style={{ display:'flex',flexDirection:'column',alignItems:'center',gap:'1rem' }}>
+              <Link
+                to="/signup"
+                style={{ background:'var(--gold)',color:'var(--ink)',fontWeight:700,fontSize:'1.05rem',padding:'0.9rem 2.5rem',borderRadius:10,textDecoration:'none',display:'inline-block' }}
+              >
+                Get started free →
+              </Link>
+              <p style={{ fontSize:'0.75rem',color:'rgba(255,255,255,0.3)',margin:0 }}>No credit card required.</p>
+            </div>
           </div>
         </div>
       </section>
