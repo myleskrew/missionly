@@ -27,14 +27,31 @@ export default function LandingPage() {
         .email-input { flex:1;min-width:220px;padding:.875rem 1.25rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s; }
         .email-input::placeholder { color:rgba(255,255,255,.3); }
         .email-input:focus { border-color:#c9a84c; }
-        @media(max-width:640px) { .nav-links-hide{display:none!important} .mockup-sidebar-hide{display:none!important} }
+        .section-pad { padding:6rem 1.5rem; }
+        .hero-section { padding:8rem 1.5rem 5rem; }
+        .eli-grid { display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center; }
+        .mockup-grid { display:grid;grid-template-columns:220px 1fr;min-height:420px; }
+        @media(max-width:768px) {
+          .nav-links-hide { display:none!important; }
+          .nav-mobile-cta { display:flex!important; }
+          .mockup-sidebar-hide { display:none!important; }
+          .mockup-grid { grid-template-columns:1fr!important;min-height:auto!important; }
+          .eli-grid { grid-template-columns:1fr!important;gap:2.5rem!important; }
+          .eli-chat-mockup { display:none!important; }
+          .section-pad { padding:3.5rem 1.25rem!important; }
+          .hero-section { padding:6.5rem 1.25rem 3rem!important; }
+          .diff-strip { display:none!important; }
+          .btn-primary,.btn-secondary { padding:.75rem 1.5rem!important;font-size:.875rem!important; }
+          .email-input { min-width:0!important;width:100%!important; }
+          .email-form-wrap { flex-direction:column!important; }
+        }
       `}</style>
 
       {/* NAV */}
       <nav style={{
         position:'fixed',top:0,left:0,right:0,zIndex:100,
         display:'flex',alignItems:'center',justifyContent:'space-between',
-        padding:'1.25rem 2rem',
+        padding:'1rem 1.5rem',
         background:'rgba(250,249,246,0.88)',backdropFilter:'blur(12px)',
         borderBottom:'1px solid rgba(201,168,76,0.15)'
       }}>
@@ -47,13 +64,17 @@ export default function LandingPage() {
           <a href="#pricing" className="nav-link">Pricing</a>
           <Link to="/signin" className="nav-link nav-cta">Get early access</Link>
         </div>
+        {/* Mobile-only CTA */}
+        <Link className="nav-mobile-cta" to="/signin" style={{ display:'none',background:'var(--ink)',color:'#fff',textDecoration:'none',padding:'0.45rem 1rem',borderRadius:6,fontSize:'0.825rem',fontWeight:600 }}>
+          Start free
+        </Link>
       </nav>
 
       {/* HERO */}
-      <section style={{
+      <section className="hero-section" style={{
         minHeight:'100vh',display:'flex',flexDirection:'column',
         alignItems:'center',justifyContent:'center',textAlign:'center',
-        padding:'8rem 1.5rem 5rem',position:'relative',overflow:'hidden'
+        position:'relative',overflow:'hidden'
       }}>
         {/* bg gradients */}
         <div style={{
@@ -127,7 +148,7 @@ export default function LandingPage() {
               </span>
             </div>
             {/* mockup body */}
-            <div style={{ display:'grid',gridTemplateColumns:'220px 1fr',minHeight:420 }}>
+            <div className="mockup-grid">
               {/* sidebar */}
               <div className="mockup-sidebar-hide" style={{ background:'var(--ink)',padding:'1.5rem 1.25rem',color:'#fff' }}>
                 <div style={{ fontFamily:'var(--ff-display)',fontSize:'1.1rem',color:'var(--gold)',marginBottom:'2rem' }}>Missionly</div>
@@ -189,7 +210,7 @@ export default function LandingPage() {
       </section>
 
       {/* DIFFERENTIATOR STRIP */}
-      <section style={{ background:'var(--ink)',padding:'1.5rem 1.5rem',borderTop:'1px solid rgba(255,255,255,0.06)' }}>
+      <section className="diff-strip" style={{ background:'var(--ink)',padding:'1.5rem',borderTop:'1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth:1000,margin:'0 auto',display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'2.5rem' }}>
           {[
             { icon:'✦', label:'AI coach built in — knows your mission' },
@@ -206,8 +227,8 @@ export default function LandingPage() {
       </section>
 
       {/* ELI — moved up, it's the differentiator */}
-      <section id="eli" style={{ background:'var(--ink)',padding:'6rem 1.5rem' }}>
-        <div style={{ maxWidth:1000,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'4rem',alignItems:'center' }}>
+      <section id="eli" className="section-pad" style={{ background:'var(--ink)' }}>
+        <div className="eli-grid" style={{ maxWidth:1000,margin:'0 auto' }}>
           <div>
             <div style={{ display:'inline-block',background:'rgba(201,168,76,0.12)',border:'1px solid rgba(201,168,76,0.25)',borderRadius:20,padding:'0.35rem 1rem',marginBottom:'1.25rem',fontSize:'0.78rem',fontWeight:600,color:'var(--gold)' }}>
               Meet Eli — your AI coach
@@ -237,7 +258,7 @@ export default function LandingPage() {
           </div>
 
           {/* Chat mockup */}
-          <div style={{ background:'rgba(255,255,255,0.04)',border:'1px solid rgba(201,168,76,0.2)',borderRadius:14,overflow:'hidden' }}>
+          <div className="eli-chat-mockup" style={{ background:'rgba(255,255,255,0.04)',border:'1px solid rgba(201,168,76,0.2)',borderRadius:14,overflow:'hidden' }}>
             <div style={{ padding:'0.875rem 1rem',borderBottom:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',gap:'0.625rem' }}>
               <div style={{ width:32,height:32,borderRadius:'50%',background:'var(--gold)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,fontSize:'0.8rem',color:'var(--ink)' }}>E</div>
               <div>
@@ -267,7 +288,7 @@ export default function LandingPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" style={{ background:'var(--paper)',padding:'6rem 1.5rem' }}>
+      <section id="how" className="section-pad" style={{ background:'var(--paper)' }}>
         <div style={{ maxWidth:1000,margin:'0 auto' }}>
           <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>The rhythm that works</span>
           <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1rem' }}>Three sessions.<br />One complete day.</h2>
@@ -290,7 +311,7 @@ export default function LandingPage() {
       </section>
 
       {/* FEATURES */}
-      <section id="features" style={{ padding:'6rem 1.5rem' }}>
+      <section id="features" className="section-pad" style={{}}>
         <div style={{ maxWidth:1000,margin:'0 auto' }}>
           <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>Everything you need</span>
           <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1rem' }}>Built for the whole life,<br />not just the work day.</h2>
@@ -315,7 +336,7 @@ export default function LandingPage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" style={{ background:'var(--paper)',padding:'6rem 1.5rem' }}>
+      <section id="pricing" className="section-pad" style={{ background:'var(--paper)' }}>
         <div style={{ maxWidth:1000,margin:'0 auto' }}>
           <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>Simple pricing</span>
           <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1rem' }}>Start free.<br />Upgrade when you're ready.</h2>
@@ -385,7 +406,7 @@ export default function LandingPage() {
       </section>
 
       {/* EMAIL CAPTURE */}
-      <section id="early" style={{ padding:'6rem 1.5rem',textAlign:'center' }}>
+      <section id="early" className="section-pad" style={{ textAlign:'center' }}>
         <div style={{ maxWidth:1000,margin:'0 auto' }}>
           <div style={{ background:'var(--ink)',borderRadius:20,padding:'4rem 2rem',position:'relative',overflow:'hidden' }}>
             <div style={{ position:'absolute',top:-80,right:-80,width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(201,168,76,0.12),transparent 70%)',pointerEvents:'none' }} />
@@ -393,7 +414,7 @@ export default function LandingPage() {
             <p style={{ fontSize:'1rem',color:'rgba(255,255,255,0.55)',maxWidth:440,lineHeight:1.7,margin:'0.75rem auto 2.5rem' }}>
               Missionly is in early access. Join the list and get lifetime Pro pricing locked in before we launch publicly.
             </p>
-            <div style={{ display:'flex',gap:'0.75rem',maxWidth:460,margin:'0 auto',flexWrap:'wrap',justifyContent:'center' }}>
+            <div className="email-form-wrap" style={{ display:'flex',gap:'0.75rem',maxWidth:460,margin:'0 auto',flexWrap:'wrap',justifyContent:'center' }}>
               <input className="email-input" type="email" placeholder="your@email.com" />
               <button className="email-btn">Get early access</button>
             </div>
