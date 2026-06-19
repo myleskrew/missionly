@@ -100,11 +100,12 @@ export default function DashboardPage() {
   const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const weekNum = getWeekNumber(now);
 
-  const userName = (data?.user as any)?.name || user?.email?.split('@')[0] || 'Friend';
+  const authName = (user as any)?.user_metadata?.name || '';
+  const userName = authName.split(' ')[0] || (data?.user as any)?.name || user?.email?.split('@')[0] || 'Friend';
 
   const eli = useEli({
     sessionType: 'dashboard',
-    user: data?.user ?? user,
+    user: { ...(data?.user ?? user), name: authName || (data?.user as any)?.name || '' },
     mission: data?.mission ?? null,
     roles: data?.roles ?? [],
     roleGoals: data?.roleGoals ?? [],
