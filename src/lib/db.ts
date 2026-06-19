@@ -258,6 +258,23 @@ export const getDashboardData = async (userId: string): Promise<DashboardSummary
   }
 };
 
+// ── ADMIN ──
+export const getAdminData = async () => {
+  const [usersRes, earlyAccessRes, dailyPlansRes, weeklyPlansRes] = await Promise.all([
+    supabase.from('users').select('id, email, plan, created_at, streak_daily, streak_weekly, streak_best, onboarding_done').order('created_at', { ascending: false }),
+    supabase.from('early_access').select('email, created_at').order('created_at', { ascending: false }),
+    supabase.from('daily_plans').select('user_id, created_at').gte('created_at', new Date(Date.now() - 7 * 86400000).toISOString()),
+    supabase.from('weekly_plans').select('user_id, created_at').gte('created_at', new Date(Date.now() - 30 * 86400000).toISOString()),
+  ]);
+
+  return {
+    users: usersRes.data || [],
+    earlyAccess: earlyAccessRes.data || [],
+    recentDailyPlans: dailyPlansRes.data || [],
+    recentWeeklyPlans: weeklyPlansRes.data || [],
+  };
+};
+
 // ── UTILS ──
 export const getWeekNumber = (date: Date): number => {
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
