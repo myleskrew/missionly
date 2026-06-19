@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { getDashboardData, updatePriorityStatus, getAdminData } from '../lib/db';
+import { getDashboardData, updatePriorityStatus } from '../lib/db';
 import { DashboardSummary, DailyPriority } from '../types';
 import { useEli } from '../hooks/useEli';
 import { EliPanel } from '../components/eli/EliPanel';
@@ -13,7 +13,6 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
   const [eliOpen, setEliOpen] = useState(false);
-  const [adminData, setAdminData] = useState<any>(null);
   const isAdmin = user?.email === 'myles.wanczyk@gmail.com';
 
   useEffect(() => {
@@ -22,9 +21,6 @@ export default function DashboardPage() {
       setData(d);
       setLoading(false);
     });
-    if (user.email === 'myles.wanczyk@gmail.com') {
-      getAdminData().then(setAdminData);
-    }
   }, [user]);
 
   const togglePriority = async (priority: DailyPriority) => {
@@ -92,6 +88,7 @@ export default function DashboardPage() {
             { to: '/daily-plan', icon: '☀️', label: 'Daily Plan' },
             { to: '/weekly-plan', icon: '📅', label: 'This Week' },
             { to: '/reflection', icon: '🌙', label: 'Reflection' },
+            ...(isAdmin ? [{ to: '/admin', icon: '🔧', label: 'Admin' }] : []),
           ].map(({ to, icon, label }) => {
             const active = window.location.pathname === to;
             return (
@@ -294,66 +291,6 @@ export default function DashboardPage() {
             )}
           </div>
         </div>
-
-        {/* ── Admin Panel ── */}
-        {isAdmin && adminData && (
-          <div style={{ marginTop: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <span style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', background: 'var(--gold-dim)', border: '1px solid rgba(201,168,76,0.3)', padding: '0.2rem 0.6rem', borderRadius: 10 }}>Admin</span>
-              <span style={{ fontSize: '0.8rem', color: 'var(--mist)' }}>Only visible to you</span>
-            </div>
-
-            {/* Stats row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem', marginBottom: '1rem' }}>
-              {[
-                { label: 'Total Users', value: adminData.users.length },
-                { label: 'Early Access', value: adminData.earlyAccess.length },
-                { label: 'Plans (7d)', value: adminData.recentDailyPlans.length },
-                { label: 'Weekly Plans (30d)', value: adminData.recentWeeklyPlans.length },
-              ].map(s => (
-                <div key={s.label} style={{ background: 'var(--ink)', borderRadius: 10, padding: '0.875rem 1rem', textAlign: 'center' }}>
-                  <div style={{ fontFamily: 'var(--ff-display)', fontSize: '1.75rem', color: 'var(--gold)', lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--mist)', marginTop: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              {/* Users table */}
-              <div style={{ background: 'var(--paper)', borderRadius: 12, padding: '1rem', overflow: 'hidden' }}>
-                <div style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--ink)', marginBottom: '0.75rem' }}>Signed-up Users</div>
-                {adminData.users.length === 0 ? (
-                  <p style={{ color: 'var(--mist)', fontSize: '0.8rem' }}>No users yet</p>
-                ) : adminData.users.slice(0, 8).map((u: any) => (
-                  <div key={u.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid var(--paper-dk)', fontSize: '0.8rem' }}>
-                    <div>
-                      <div style={{ color: 'var(--ink)', fontWeight: 500 }}>{u.email}</div>
-                      <div style={{ color: 'var(--mist)', fontSize: '0.7rem' }}>
-                        {u.onboarding_done ? '✓ Onboarded' : '○ Not onboarded'} · 🔥{u.streak_daily || 0}
-                      </div>
-                    </div>
-                    <span style={{ fontSize: '0.68rem', background: u.plan === 'pro' ? 'var(--gold-dim)' : 'var(--paper-dk)', color: u.plan === 'pro' ? 'var(--gold)' : 'var(--mist)', padding: '0.15rem 0.5rem', borderRadius: 8, fontWeight: 600 }}>
-                      {u.plan || 'free'}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Early access list */}
-              <div style={{ background: 'var(--paper)', borderRadius: 12, padding: '1rem' }}>
-                <div style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--ink)', marginBottom: '0.75rem' }}>Early Access List</div>
-                {adminData.earlyAccess.length === 0 ? (
-                  <p style={{ color: 'var(--mist)', fontSize: '0.8rem' }}>No signups yet</p>
-                ) : adminData.earlyAccess.slice(0, 8).map((e: any) => (
-                  <div key={e.email} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid var(--paper-dk)', fontSize: '0.8rem' }}>
-                    <div style={{ color: 'var(--ink)', fontWeight: 500 }}>{e.email}</div>
-                    <div style={{ color: 'var(--mist)', fontSize: '0.7rem' }}>{new Date(e.created_at).toLocaleDateString()}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Evening Reflection banner */}
         {hour >= 17 && (

@@ -11,6 +11,7 @@ const DailyPlanPage  = React.lazy(() => import('./pages/DailyPlanPage'));
 const WeeklyPlanPage = React.lazy(() => import('./pages/WeeklyPlanPage'));
 const ReflectionPage = React.lazy(() => import('./pages/ReflectionPage'));
 const SignInPage      = React.lazy(() => import('./pages/SignInPage'));
+const AdminPage       = React.lazy(() => import('./pages/AdminPage'));
 
 // Route guard — redirect to sign in if not authenticated
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="/daily-plan"  element={<ProtectedRoute><DailyPlanPage /></ProtectedRoute>} />
             <Route path="/weekly-plan" element={<ProtectedRoute><WeeklyPlanPage /></ProtectedRoute>} />
             <Route path="/reflection"  element={<ProtectedRoute><ReflectionPage /></ProtectedRoute>} />
+            <Route path="/admin"       element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
