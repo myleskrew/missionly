@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { getTodaysPlan, getTodaysPriorities, updatePriorityStatus } from '../lib/db';
 import { DailyPriority } from '../types';
 import { supabase } from '../lib/supabase';
+import { ProGate } from '../components/ProGate';
 
 const GRATITUDE_PROMPTS = ['I am grateful for…', 'A person I appreciate today…', 'Something I noticed today…'];
 const DAY_WORDS = ['Productive', 'Peaceful', 'Challenging', 'Meaningful', 'Scattered', 'Connected', 'Hard', 'Good'];
@@ -14,6 +15,7 @@ export default function ReflectionPage() {
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
   const [priorities, setPriorities] = useState<DailyPriority[]>([]);
+  const [dbUser, setDbUser] = useState<any>(null);
 
   // Step 1 — day review
   const [dayWord, setDayWord] = useState('');
@@ -34,6 +36,7 @@ export default function ReflectionPage() {
 
   useEffect(() => {
     if (!user) return;
+    supabase.from('users').select('plan, name').eq('id', user.id).single().then(({ data }) => setDbUser(data));
     getTodaysPlan(user.id).then(async plan => {
       if (plan) {
         const p = await getTodaysPriorities(plan.id);
@@ -41,6 +44,18 @@ export default function ReflectionPage() {
       }
     });
   }, [user]);
+
+  if (dbUser && dbUser.plan !== 'pro') {
+    return (
+      <ProGate
+        user={{ ...dbUser, id: user?.id, email: user?.email }}
+        feature="Evening Reflection"
+        description="End every day with clarity. Evening reflection — reviewing your priorities, rating your day, and resetting for tomorrow — is a Pro feature."
+      >
+        <></>
+      </ProGate>
+    );
+  }
 
   const cycleStatus = async (p: DailyPriority) => {
     const next = p.status === 'pending' ? 'done' : p.status === 'done' ? 'partial' : p.status === 'partial' ? 'missed' : 'pending';

@@ -413,7 +413,13 @@ export default function DashboardPage() {
       <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 50 }}>
         {/* Toggle button */}
         <button
-          onClick={() => setEliOpen(o => !o)}
+          onClick={() => {
+            if ((data?.user as any)?.plan !== 'pro') {
+              setShowUpgradeModal(true);
+            } else {
+              setEliOpen(o => !o);
+            }
+          }}
           style={{
             width: 52, height: 52, borderRadius: '50%',
             background: 'var(--ink)', border: '2px solid var(--gold)',
@@ -423,7 +429,7 @@ export default function DashboardPage() {
             transition: 'transform 0.2s',
             marginLeft: 'auto'
           }}
-          title="Chat with Eli"
+          title={(data?.user as any)?.plan === 'pro' ? 'Chat with Eli' : 'Upgrade to chat with Eli'}
         >
           {eliOpen ? '×' : 'E'}
         </button>

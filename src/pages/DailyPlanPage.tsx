@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { getRoles, createDailyPlan, upsertPriority, updateStreak, getTodaysPlan, getTodaysPriorities } from '../lib/db';
 import { Role, DailyPriority } from '../types';
+import { ProGate } from '../components/ProGate';
+import { supabase } from '../lib/supabase';
 
 const INTENTIONS = [
   'I will be fully present in my most important moments',
@@ -21,6 +23,7 @@ export default function DailyPlanPage() {
   const [roles, setRoles] = useState<Role[]>([]);
   const [saving, setSaving] = useState(false);
   const [alreadyDone, setAlreadyDone] = useState(false);
+  const [dbUser, setDbUser] = useState<any>(null);
 
   // Step 1
   const [feeling, setFeeling] = useState('');
@@ -42,11 +45,24 @@ export default function DailyPlanPage() {
 
   useEffect(() => {
     if (!user) return;
+    supabase.from('users').select('plan, name').eq('id', user.id).single().then(({ data }) => setDbUser(data));
     getRoles(user.id).then(setRoles);
     getTodaysPlan(user.id).then(plan => {
       if (plan) setAlreadyDone(true);
     });
   }, [user]);
+
+  if (dbUser && dbUser.plan !== 'pro') {
+    return (
+      <ProGate
+        user={{ ...dbUser, id: user?.id, email: user?.email }}
+        feature="Daily Planning"
+        description="Start every day with intention. Daily planning — check-in, priorities, and your win statement — is a Pro feature that keeps your mission at the center of each day."
+      >
+        <></>
+      </ProGate>
+    );
+  }
 
   const toggleIntention = (i: number) => {
     setIntentions(prev => prev.map((v, idx) => idx === i ? !v : v));
