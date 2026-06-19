@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { getDashboardData, updatePriorityStatus } from '../lib/db';
 import { DashboardSummary, DailyPriority } from '../types';
+import { useEli } from '../hooks/useEli';
+import { EliPanel } from '../components/eli/EliPanel';
 
 export default function DashboardPage() {
   const { user, signOut } = useAuth();
@@ -10,6 +12,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
+  const [eliOpen, setEliOpen] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -38,6 +41,15 @@ export default function DashboardPage() {
   const weekNum = getWeekNumber(now);
 
   const userName = (data?.user as any)?.name || user?.email?.split('@')[0] || 'Friend';
+
+  const eli = useEli({
+    sessionType: 'dashboard',
+    user: data?.user ?? user,
+    mission: data?.mission ?? null,
+    roles: data?.roles ?? [],
+    roleGoals: data?.roleGoals ?? [],
+    todayPriorities: data?.todayPriorities ?? [],
+  });
 
   if (loading) {
     return (
@@ -294,6 +306,45 @@ export default function DashboardPage() {
           </div>
         )}
       </main>
+
+      {/* ── Eli floating panel ── */}
+      <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 50 }}>
+        {/* Toggle button */}
+        <button
+          onClick={() => setEliOpen(o => !o)}
+          style={{
+            width: 52, height: 52, borderRadius: '50%',
+            background: 'var(--ink)', border: '2px solid var(--gold)',
+            color: 'var(--gold)', fontSize: '1.1rem', fontWeight: 700,
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+            transition: 'transform 0.2s',
+            marginLeft: 'auto'
+          }}
+          title="Chat with Eli"
+        >
+          {eliOpen ? '×' : 'E'}
+        </button>
+
+        {/* Chat panel */}
+        {eliOpen && (
+          <div style={{
+            position: 'absolute', bottom: 64, right: 0,
+            width: 320, height: 440, borderRadius: 16,
+            overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.35)',
+            border: '1px solid rgba(201,168,76,0.2)',
+            animation: 'eli-slide-up 0.2s ease'
+          }}>
+            <style>{`@keyframes eli-slide-up { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }`}</style>
+            <EliPanel
+              messages={eli.messages}
+              onSend={eli.sendMessage}
+              loading={eli.loading}
+              userName={userName}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
