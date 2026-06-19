@@ -14,6 +14,10 @@ export default function DashboardPage() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [upgraded, setUpgraded] = useState(false);
+  const [promoOpen, setPromoOpen] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [promoError, setPromoError] = useState('');
   const [data, setData] = useState<DashboardSummary | null>(null);
   const [yesterdayPriorities, setYesterdayPriorities] = useState<DailyPriority[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,6 +53,32 @@ export default function DashboardPage() {
       console.error('Checkout error:', err);
       alert('Checkout failed: ' + (err?.message || 'Unknown error'));
       setCheckoutLoading(false);
+    }
+  };
+
+  const handlePromoRedeem = async () => {
+    if (!promoCode.trim() || !user) return;
+    setPromoLoading(true);
+    setPromoError('');
+    try {
+      const res = await fetch('/api/redeem-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: promoCode.trim(), userId: user.id }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setPromoError(json.error || 'Invalid code');
+      } else {
+        setUpgraded(true);
+        setPromoOpen(false);
+        setPromoCode('');
+        setData(prev => prev ? { ...prev, user: { ...(prev.user as any), plan: 'pro' } } : prev);
+      }
+    } catch {
+      setPromoError('Something went wrong. Try again.');
+    } finally {
+      setPromoLoading(false);
     }
   };
 
@@ -338,17 +368,47 @@ export default function DashboardPage() {
 
         {/* Upgrade banner for free users */}
         {data && (data.user as any)?.plan !== 'pro' && (
-          <div style={{ marginTop: '1.5rem', background: 'var(--ink)', borderRadius: 12, padding: '1.25rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(201,168,76,0.2)' }}>
-            <div>
-              <div style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '0.95rem' }}>✦ Unlock Missionly Pro</div>
-              <div style={{ color: 'var(--mist)', fontSize: '0.8rem', marginTop: '0.2rem' }}>Get full access to Eli, planning history, and streaks — $9/mo</div>
+          <div style={{ marginTop: '1.5rem', background: 'var(--ink)', borderRadius: 12, padding: '1.25rem 1.5rem', border: '1px solid rgba(201,168,76,0.2)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: promoOpen ? '1rem' : 0 }}>
+              <div>
+                <div style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '0.95rem' }}>✦ Unlock Missionly Pro</div>
+                <div style={{ color: 'var(--mist)', fontSize: '0.8rem', marginTop: '0.2rem' }}>Get full access to Eli, daily planning, and streaks — $9/mo</div>
+              </div>
+              <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+                <button
+                  onClick={() => setPromoOpen(o => !o)}
+                  style={{ background: 'transparent', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 8, padding: '0.6rem 1rem', fontWeight: 600, fontSize: '0.8rem', color: 'var(--mist)', cursor: 'pointer' }}
+                >
+                  {promoOpen ? 'Cancel' : 'Have a code?'}
+                </button>
+                <button
+                  onClick={() => setShowUpgradeModal(true)}
+                  style={{ background: 'var(--gold)', border: 'none', borderRadius: 8, padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.875rem', color: 'var(--ink)', cursor: 'pointer' }}
+                >
+                  Upgrade →
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => setShowUpgradeModal(true)}
-              style={{ background: 'var(--gold)', border: 'none', borderRadius: 8, padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.875rem', color: 'var(--ink)', cursor: 'pointer', flexShrink: 0 }}
-            >
-              Upgrade →
-            </button>
+            {promoOpen && (
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input
+                  type="text"
+                  placeholder="Enter promo code"
+                  value={promoCode}
+                  onChange={e => setPromoCode(e.target.value.toUpperCase())}
+                  onKeyDown={e => e.key === 'Enter' && handlePromoRedeem()}
+                  style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, padding: '0.6rem 1rem', color: '#fff', fontSize: '0.9rem', fontFamily: 'var(--ff-body)', letterSpacing: '0.05em' }}
+                />
+                <button
+                  onClick={handlePromoRedeem}
+                  disabled={promoLoading || !promoCode.trim()}
+                  style={{ background: 'var(--gold)', border: 'none', borderRadius: 8, padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.875rem', color: 'var(--ink)', cursor: 'pointer', opacity: promoLoading ? 0.7 : 1 }}
+                >
+                  {promoLoading ? '...' : 'Apply'}
+                </button>
+              </div>
+            )}
+            {promoError && <div style={{ color: '#f87171', fontSize: '0.8rem', marginTop: '0.5rem' }}>{promoError}</div>}
           </div>
         )}
 
