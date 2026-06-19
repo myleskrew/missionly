@@ -40,7 +40,9 @@ export default function DashboardPage() {
     setCheckoutLoading(true);
     try {
       await startCheckout(user.id, user.email!, annual);
-    } catch {
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      alert('Checkout failed: ' + (err?.message || 'Unknown error'));
       setCheckoutLoading(false);
     }
   };
