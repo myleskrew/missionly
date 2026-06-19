@@ -258,6 +258,53 @@ export const getDashboardData = async (userId: string): Promise<DashboardSummary
   }
 };
 
+// ── ELI CONVERSATIONS ──
+export const saveEliMessage = async (
+  userId: string,
+  role: 'user' | 'eli',
+  content: string,
+  sessionType: string
+) => {
+  const { error } = await supabase
+    .from('eli_conversations')
+    .insert({ user_id: userId, role, content, session_type: sessionType });
+  return { error };
+};
+
+export const getRecentEliHistory = async (userId: string, limit = 12): Promise<{ role: string; content: string; session_type: string; created_at: string }[]> => {
+  const { data, error } = await supabase
+    .from('eli_conversations')
+    .select('role, content, session_type, created_at')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  if (error) return [];
+  return (data || []).reverse();
+};
+
+export const getYesterdaysPriorities = async (userId: string): Promise<DailyPriority[]> => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const dateStr = yesterday.toISOString().split('T')[0];
+
+  const { data: plan } = await supabase
+    .from('daily_plans')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('date', dateStr)
+    .single();
+
+  if (!plan) return [];
+
+  const { data } = await supabase
+    .from('daily_priorities')
+    .select('*')
+    .eq('daily_plan_id', plan.id)
+    .order('order');
+
+  return data || [];
+};
+
 // ── ADMIN ──
 export const getAdminData = async () => {
   const [usersRes, earlyAccessRes, dailyPlansRes, weeklyPlansRes] = await Promise.all([

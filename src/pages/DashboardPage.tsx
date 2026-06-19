@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { getDashboardData, updatePriorityStatus } from '../lib/db';
+import { getDashboardData, updatePriorityStatus, getYesterdaysPriorities } from '../lib/db';
 import { DashboardSummary, DailyPriority } from '../types';
 import { useEli } from '../hooks/useEli';
 import { EliPanel } from '../components/eli/EliPanel';
@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [upgraded, setUpgraded] = useState(false);
   const [data, setData] = useState<DashboardSummary | null>(null);
+  const [yesterdayPriorities, setYesterdayPriorities] = useState<DailyPriority[]>([]);
   const [loading, setLoading] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
   const [eliOpen, setEliOpen] = useState(false);
@@ -22,8 +23,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!user) return;
-    getDashboardData(user.id).then(d => {
+    Promise.all([
+      getDashboardData(user.id),
+      getYesterdaysPriorities(user.id),
+    ]).then(([d, yp]) => {
       setData(d);
+      setYesterdayPriorities(yp);
       setLoading(false);
     });
   }, [user]);
@@ -74,6 +79,7 @@ export default function DashboardPage() {
     roles: data?.roles ?? [],
     roleGoals: data?.roleGoals ?? [],
     todayPriorities: data?.todayPriorities ?? [],
+    yesterdayPriorities,
   });
 
   if (loading) {
