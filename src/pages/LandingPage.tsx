@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function LandingPage() {
+  const [annual, setAnnual] = useState(false);
   return (
     <div style={{ fontFamily: 'var(--ff-body)', color: 'var(--ink)', overflowX: 'hidden' }}>
       <style>{`
@@ -276,6 +278,33 @@ export default function LandingPage() {
           <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>Simple pricing</span>
           <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1rem' }}>Start free.<br />Upgrade when you're ready.</h2>
           <p style={{ fontSize:'1rem',color:'var(--slate)',maxWidth:540,lineHeight:1.7 }}>No credit card to get started. Pro unlocks Eli, history, and the full planning loop.</p>
+
+          {/* Toggle */}
+          <div style={{ display:'flex',alignItems:'center',gap:'0.875rem',marginTop:'2rem' }}>
+            <span style={{ fontSize:'0.9rem',fontWeight: annual ? 400 : 600,color: annual ? 'var(--mist)' : 'var(--ink)' }}>Monthly</span>
+            <div
+              onClick={() => setAnnual(a => !a)}
+              style={{
+                width:48,height:26,borderRadius:13,cursor:'pointer',position:'relative',
+                background: annual ? 'var(--ink)' : 'var(--paper-dk)',
+                transition:'background 0.2s'
+              }}
+            >
+              <div style={{
+                position:'absolute',top:3,left: annual ? 25 : 3,
+                width:20,height:20,borderRadius:'50%',background:'#fff',
+                transition:'left 0.2s',boxShadow:'0 1px 4px rgba(0,0,0,0.2)'
+              }} />
+            </div>
+            <span style={{ fontSize:'0.9rem',fontWeight: annual ? 600 : 400,color: annual ? 'var(--ink)' : 'var(--mist)' }}>
+              Annual
+            </span>
+            {annual && (
+              <span style={{ background:'var(--sage-dim)',color:'var(--sage)',fontSize:'0.75rem',fontWeight:700,padding:'0.2rem 0.6rem',borderRadius:20,border:'1px solid rgba(107,143,113,0.25)' }}>
+                Save $29 — 2 months free
+              </span>
+            )}
+          </div>
           <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'1.5rem',marginTop:'3.5rem',maxWidth:700 }}>
             {/* Free */}
             <div style={{ background:'#fff',borderRadius:14,padding:'2rem',border:'1px solid rgba(26,26,46,0.1)' }}>
@@ -295,8 +324,11 @@ export default function LandingPage() {
             <div style={{ background:'var(--ink)',borderRadius:14,padding:'2rem',border:'1px solid var(--gold)',position:'relative' }}>
               <div style={{ position:'absolute',top:-12,left:'50%',transform:'translateX(-50%)',background:'var(--gold)',color:'var(--ink)',fontSize:'0.7rem',fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',padding:'0.25rem 0.875rem',borderRadius:20 }}>Most Popular</div>
               <div style={{ fontSize:'0.75rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--gold)',marginBottom:'0.5rem' }}>Pro</div>
-              <div style={{ fontFamily:'var(--ff-display)',fontSize:'2.5rem',color:'#fff',lineHeight:1,marginBottom:'0.25rem' }}>$9</div>
-              <div style={{ fontSize:'0.8rem',color:'rgba(255,255,255,0.4)',marginBottom:'1.5rem' }}>per month · cancel anytime</div>
+              <div style={{ display:'flex',alignItems:'baseline',gap:'0.375rem' }}>
+                <div style={{ fontFamily:'var(--ff-display)',fontSize:'2.5rem',color:'#fff',lineHeight:1,marginBottom:'0.25rem' }}>{annual ? '$79' : '$9'}</div>
+                {annual && <span style={{ fontSize:'0.8rem',color:'rgba(255,255,255,0.4)',textDecoration:'line-through' }}>$108</span>}
+              </div>
+              <div style={{ fontSize:'0.8rem',color:'rgba(255,255,255,0.4)',marginBottom:'1.5rem' }}>{annual ? 'per year · cancel anytime' : 'per month · cancel anytime'}</div>
               <ul style={{ listStyle:'none',padding:0,marginBottom:'2rem' }}>
                 {['Everything in Free','Daily planning + reflection','Eli AI coach (full access)','Planning history & streaks','Weekly review prompts','14-day free trial'].map(item => (
                   <li key={item} style={{ display:'flex',gap:'0.625rem',alignItems:'flex-start',fontSize:'0.875rem',color:'rgba(255,255,255,0.7)',padding:'0.375rem 0',borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
