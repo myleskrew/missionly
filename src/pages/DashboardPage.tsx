@@ -127,9 +127,33 @@ export default function DashboardPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--ivory)', fontFamily: 'var(--ff-body)', display: 'flex' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .dash-sidebar { display: none !important; }
+          .dash-main { margin-left: 0 !important; max-width: 100vw !important; padding: calc(env(safe-area-inset-top) + 1.25rem) 1rem calc(5rem + env(safe-area-inset-bottom)) !important; }
+          .dash-bottom-nav { display: flex !important; }
+          .dash-topbar h1 { font-size: 1.4rem !important; }
+          .dash-streak-row { flex-wrap: wrap; gap: 0.5rem; }
+        }
+        .dash-bottom-nav {
+          display: none;
+          position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+          background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08);
+          padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+          justify-content: space-around; align-items: center;
+        }
+        .dash-bottom-nav a {
+          display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+          text-decoration: none; color: var(--mist); font-size: 0.65rem; font-weight: 500;
+          padding: 0.4rem 0.75rem; border-radius: 8px; min-width: 56px;
+          transition: color 0.15s;
+        }
+        .dash-bottom-nav a.active { color: var(--gold); }
+        .dash-bottom-nav a span.icon { font-size: 1.3rem; }
+      `}</style>
 
       {/* ── Sidebar ── */}
-      <aside style={{
+      <aside className="dash-sidebar" style={{
         width: '240px', flexShrink: 0, background: 'var(--ink)', display: 'flex',
         flexDirection: 'column', position: 'fixed', top: 0, left: 0, height: '100vh',
         zIndex: 10
@@ -183,8 +207,33 @@ export default function DashboardPage() {
         </div>
       </aside>
 
+      {/* ── Bottom nav (mobile only) ── */}
+      <nav className="dash-bottom-nav">
+        {[
+          { to: '/dashboard', icon: '⬛', label: 'Home' },
+          { to: '/daily-plan', icon: '☀️', label: 'Daily' },
+          { to: '/weekly-plan', icon: '📅', label: 'Weekly' },
+          { to: '/reflection', icon: '🌙', label: 'Reflect' },
+        ].map(({ to, icon, label }) => (
+          <Link key={to} to={to} className={window.location.pathname === to ? 'active' : ''}>
+            <span className="icon">{icon}</span>
+            {label}
+          </Link>
+        ))}
+        <button
+          onClick={() => {
+            if ((data?.user as any)?.plan !== 'pro') setShowUpgradeModal(true);
+            else setEliOpen(o => !o);
+          }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem', background: 'none', border: 'none', color: 'var(--gold)', fontSize: '0.65rem', fontWeight: 500, cursor: 'pointer', padding: '0.4rem 0.75rem', minWidth: 56 }}
+        >
+          <span style={{ fontSize: '1.3rem' }}>E</span>
+          Eli
+        </button>
+      </nav>
+
       {/* ── Main Content ── */}
-      <main style={{ marginLeft: '240px', flex: 1, padding: '2rem', maxWidth: 'calc(100vw - 240px)' }}>
+      <main className="dash-main" style={{ marginLeft: '240px', flex: 1, padding: '2rem', maxWidth: 'calc(100vw - 240px)' }}>
 
         {/* Top bar */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
