@@ -138,18 +138,21 @@ export default function DashboardPage() {
         .dash-bottom-nav {
           display: none;
           position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-          background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08);
-          padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+          background: rgba(26,26,46,0.96);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-top: 1px solid rgba(255,255,255,0.06);
+          padding: 0.35rem 0 calc(0.35rem + env(safe-area-inset-bottom));
           justify-content: space-around; align-items: center;
         }
         .dash-bottom-nav a {
-          display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
-          text-decoration: none; color: var(--mist); font-size: 0.65rem; font-weight: 500;
-          padding: 0.4rem 0.75rem; border-radius: 8px; min-width: 56px;
-          transition: color 0.15s;
+          display: flex; flex-direction: column; align-items: center; gap: 0.1rem;
+          text-decoration: none; color: rgba(255,255,255,0.35); font-size: 0.6rem; font-weight: 500;
+          padding: 0.3rem 0.75rem; border-radius: 8px; min-width: 52px;
+          transition: color 0.15s; letter-spacing: 0.02em;
         }
         .dash-bottom-nav a.active { color: var(--gold); }
-        .dash-bottom-nav a span.icon { font-size: 1.3rem; }
+        .dash-bottom-nav a span.icon { font-size: 1.1rem; }
       `}</style>
 
       {/* ── Sidebar ── */}
@@ -225,9 +228,9 @@ export default function DashboardPage() {
             if ((data?.user as any)?.plan !== 'pro') setShowUpgradeModal(true);
             else setEliOpen(o => !o);
           }}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem', background: 'none', border: 'none', color: 'var(--gold)', fontSize: '0.65rem', fontWeight: 500, cursor: 'pointer', padding: '0.4rem 0.75rem', minWidth: 56 }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.1rem', background: 'none', border: 'none', color: 'var(--gold)', fontSize: '0.6rem', fontWeight: 500, cursor: 'pointer', padding: '0.3rem 0.75rem', minWidth: 52, letterSpacing: '0.02em' }}
         >
-          <span style={{ fontSize: '1.3rem' }}>E</span>
+          <span style={{ fontSize: '1.1rem' }}>E</span>
           Eli
         </button>
       </nav>
