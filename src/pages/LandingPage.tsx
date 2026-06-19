@@ -36,7 +36,7 @@ export default function LandingPage() {
         background:'rgba(250,249,246,0.88)',backdropFilter:'blur(12px)',
         borderBottom:'1px solid rgba(201,168,76,0.15)'
       }}>
-        <span style={{ fontFamily:'var(--ff-display)',fontSize:'1.5rem',color:'var(--ink)',letterSpacing:'-0.01em' }}>
+        <span style={{ fontFamily:'var(--ff-display)',fontSize:'1.9rem',color:'var(--ink)',letterSpacing:'-0.01em' }}>
           Mission<span style={{ color:'var(--gold)' }}>ly</span>
         </span>
         <div className="nav-links-hide" style={{ display:'flex',gap:'2rem',alignItems:'center' }}>
