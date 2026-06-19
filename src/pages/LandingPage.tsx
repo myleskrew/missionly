@@ -74,32 +74,31 @@ export default function LandingPage() {
         <div style={{ position:'relative',zIndex:1,maxWidth:760 }}>
           <div style={{
             display:'inline-flex',alignItems:'center',gap:'0.5rem',
-            fontFamily:'var(--ff-accent)',fontStyle:'italic',
-            fontSize:'0.9rem',color:'var(--gold)',letterSpacing:'0.04em',marginBottom:'1.75rem'
+            background:'rgba(201,168,76,0.1)',border:'1px solid rgba(201,168,76,0.25)',
+            borderRadius:20,padding:'0.35rem 1rem',marginBottom:'1.75rem',
+            fontSize:'0.8rem',fontWeight:600,color:'var(--gold)',letterSpacing:'0.04em'
           }}>
-            <span style={{ display:'block',width:32,height:1,background:'#e8d5a3' }} />
-            Daily intention. Weekly clarity. A life on purpose.
-            <span style={{ display:'block',width:32,height:1,background:'#e8d5a3' }} />
+            ✦ The only planner with a built-in AI coach
           </div>
 
           <h1 style={{
             fontFamily:'var(--ff-display)',fontSize:'clamp(2.8rem,7vw,5rem)',
             lineHeight:1.08,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1.5rem'
           }}>
-            Plan your days<br />around what<br />
-            <em style={{ fontStyle:'italic',color:'var(--gold)' }}>actually matters.</em>
+            The weekly planner<br />with a coach who<br />
+            <em style={{ fontStyle:'italic',color:'var(--gold)' }}>holds you to it.</em>
           </h1>
 
           <p style={{
             fontFamily:'var(--ff-accent)',fontSize:'clamp(1rem,2.5vw,1.2rem)',
             color:'var(--slate)',maxWidth:520,margin:'0 auto 2.5rem',lineHeight:1.7
           }}>
-            Missionly connects your daily actions to your life's mission — through roles, weekly planning, and an AI coach that holds you to it.
+            Mission statement. Life roles. Daily plan. Evening reflection. And Eli — an AI coach who knows your goals and won't let you make excuses.
           </p>
 
           <div style={{ display:'flex',gap:'1rem',justifyContent:'center',flexWrap:'wrap' }}>
             <Link to="/signin" className="btn-primary">Start free — no credit card</Link>
-            <a href="#how" className="btn-secondary">See how it works</a>
+            <a href="#eli" className="btn-secondary">Meet Eli →</a>
           </div>
           <p style={{ marginTop:'1.25rem',fontSize:'0.8rem',color:'var(--mist)' }}>
             14-day Pro trial included · Free plan available forever
@@ -189,6 +188,84 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* DIFFERENTIATOR STRIP */}
+      <section style={{ background:'var(--ink)',padding:'1.5rem 1.5rem',borderTop:'1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth:1000,margin:'0 auto',display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'2.5rem' }}>
+          {[
+            { icon:'✦', label:'AI coach built in — knows your mission' },
+            { icon:'◎', label:'Role-based, not just task-based' },
+            { icon:'🌙', label:'Morning + evening rituals' },
+            { icon:'🔥', label:'Streak tracking for accountability' },
+          ].map(d => (
+            <div key={d.label} style={{ display:'flex',alignItems:'center',gap:'0.5rem',color:'rgba(255,255,255,0.65)',fontSize:'0.85rem' }}>
+              <span style={{ color:'var(--gold)' }}>{d.icon}</span>
+              {d.label}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ELI — moved up, it's the differentiator */}
+      <section id="eli" style={{ background:'var(--ink)',padding:'6rem 1.5rem' }}>
+        <div style={{ maxWidth:1000,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'4rem',alignItems:'center' }}>
+          <div>
+            <div style={{ display:'inline-block',background:'rgba(201,168,76,0.12)',border:'1px solid rgba(201,168,76,0.25)',borderRadius:20,padding:'0.35rem 1rem',marginBottom:'1.25rem',fontSize:'0.78rem',fontWeight:600,color:'var(--gold)' }}>
+              Meet Eli — your AI coach
+            </div>
+            <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(1.75rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'#fff',marginBottom:'1rem' }}>
+              The only planner<br />that talks back.
+            </h2>
+            <p style={{ fontSize:'0.95rem',color:'rgba(255,255,255,0.6)',lineHeight:1.75,marginBottom:'1.5rem' }}>
+              Eli isn't a generic chatbot. He knows your mission statement, your life roles, your weekly goals, and your priorities today. He'll encourage you, challenge your excuses, and ask the question you're avoiding.
+            </p>
+            <ul style={{ listStyle:'none',padding:0 }}>
+              {[
+                'Reads your mission & roles before every chat',
+                'Calls out patterns you\'re not seeing',
+                'Available any time — morning, midday, evening',
+                'Built on Claude — the most human AI available',
+              ].map(item => (
+                <li key={item} style={{ display:'flex',gap:'0.6rem',alignItems:'flex-start',marginBottom:'0.65rem',fontSize:'0.875rem',color:'rgba(255,255,255,0.7)' }}>
+                  <span style={{ color:'var(--gold)',fontWeight:700,flexShrink:0,marginTop:2 }}>✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link to="/signin" className="btn-primary" style={{ display:'inline-block',marginTop:'1.75rem',background:'var(--gold)',color:'var(--ink)',border:'none' }}>
+              Try Eli free →
+            </Link>
+          </div>
+
+          {/* Chat mockup */}
+          <div style={{ background:'rgba(255,255,255,0.04)',border:'1px solid rgba(201,168,76,0.2)',borderRadius:14,overflow:'hidden' }}>
+            <div style={{ padding:'0.875rem 1rem',borderBottom:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',gap:'0.625rem' }}>
+              <div style={{ width:32,height:32,borderRadius:'50%',background:'var(--gold)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,fontSize:'0.8rem',color:'var(--ink)' }}>E</div>
+              <div>
+                <div style={{ fontSize:'0.85rem',fontWeight:600,color:'#fff' }}>Eli</div>
+                <div style={{ fontSize:'0.65rem',color:'var(--mist)' }}>AI Planning Coach</div>
+              </div>
+              <div style={{ marginLeft:'auto',width:7,height:7,borderRadius:'50%',background:'var(--sage)',boxShadow:'0 0 6px rgba(107,143,113,0.5)' }} />
+            </div>
+            <div style={{ padding:'1.25rem' }}>
+              {[
+                { user:false, text:"Good morning. You said your #1 father goal this week was to take your kids to the park before Saturday. It's Wednesday — how's that looking?" },
+                { user:true,  text:"Honestly I keep pushing it. Work has been crazy." },
+                { user:false, text:"Work will always be there. Your mission says you want to lead with integrity in every role — not just the professional one. What would it take to make Thursday evening happen?" },
+              ].map((msg, i) => (
+                <div key={i} style={{ display:'flex',gap:'0.75rem',marginBottom:'1rem',alignItems:'flex-start',flexDirection: msg.user ? 'row-reverse' : 'row' }}>
+                  <div style={{ width:28,height:28,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.65rem',fontWeight:700,flexShrink:0,background: msg.user ? 'rgba(255,255,255,0.1)' : 'var(--gold)',color: msg.user ? 'rgba(255,255,255,0.6)' : 'var(--ink)' }}>
+                    {msg.user ? 'M' : 'E'}
+                  </div>
+                  <div style={{ borderRadius:10,padding:'0.7rem 0.875rem',fontSize:'0.82rem',color:'rgba(255,255,255,0.85)',lineHeight:1.55,maxWidth:'85%',fontStyle: msg.user ? 'normal' : 'italic',fontFamily: msg.user ? 'var(--ff-body)' : 'var(--ff-accent)',background: msg.user ? 'rgba(201,168,76,0.12)' : 'rgba(255,255,255,0.06)',border: msg.user ? '1px solid rgba(201,168,76,0.2)' : '1px solid rgba(255,255,255,0.07)' }}>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section id="how" style={{ background:'var(--paper)',padding:'6rem 1.5rem' }}>
         <div style={{ maxWidth:1000,margin:'0 auto' }}>
@@ -231,41 +308,6 @@ export default function LandingPage() {
                 <span style={{ fontSize:'1.4rem',marginBottom:'0.75rem',display:'block' }}>{f.icon}</span>
                 <div style={{ fontWeight:600,fontSize:'0.95rem',color:'var(--ink)',marginBottom:'0.375rem' }}>{f.title}</div>
                 <p style={{ fontSize:'0.875rem',color:'var(--slate)',lineHeight:1.6 }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ELI SECTION */}
-      <section id="eli" style={{ background:'var(--ink)',padding:'6rem 1.5rem' }}>
-        <div style={{ maxWidth:1000,margin:'0 auto' }}>
-          <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>Meet your coach</span>
-          <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'#fff',marginBottom:'1rem' }}>Eli knows your mission.<br />He won't let you forget it.</h2>
-          <p style={{ fontSize:'1rem',color:'rgba(255,255,255,0.6)',maxWidth:540,lineHeight:1.7 }}>Eli isn't a generic AI assistant. He's trained on your roles, your goals, and your weekly commitments — so every conversation is specific to your life, not someone else's.</p>
-          <div style={{ background:'rgba(255,255,255,0.04)',border:'1px solid rgba(201,168,76,0.2)',borderRadius:14,padding:'2rem',marginTop:'3rem',maxWidth:600 }}>
-            {[
-              { user:false, text:"Good morning. You said your #1 father goal this week was to take your kids to the park before Saturday. It's Wednesday — how's that looking?" },
-              { user:true,  text:"Honestly I keep pushing it. Work has been crazy." },
-              { user:false, text:"Work will always be there. Your mission statement says you want to lead with integrity in every role — not just the professional one. What would it take to make Thursday evening work?" },
-            ].map((msg, i) => (
-              <div key={i} style={{ display:'flex',gap:'0.875rem',marginBottom:'1.25rem',alignItems:'flex-start',flexDirection: msg.user ? 'row-reverse' : 'row' }}>
-                <div style={{
-                  width:34,height:34,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',
-                  fontSize:'0.75rem',fontWeight:700,flexShrink:0,
-                  background: msg.user ? 'rgba(255,255,255,0.1)' : 'var(--gold)',
-                  color: msg.user ? 'rgba(255,255,255,0.7)' : 'var(--ink)'
-                }}>{msg.user ? 'M' : 'E'}</div>
-                <div>
-                  <div style={{ fontSize:'0.68rem',fontWeight:600,letterSpacing:'0.05em',marginBottom:'0.35rem',color: msg.user ? 'rgba(255,255,255,0.4)' : 'var(--gold)',textAlign: msg.user ? 'right' : 'left' }}>
-                    {msg.user ? 'You' : 'Eli · AI Coach'}
-                  </div>
-                  <div style={{
-                    borderRadius:10,padding:'0.75rem 1rem',fontSize:'0.875rem',color:'rgba(255,255,255,0.85)',lineHeight:1.55,maxWidth:380,
-                    background: msg.user ? 'rgba(201,168,76,0.12)' : 'rgba(255,255,255,0.06)',
-                    border: msg.user ? '1px solid rgba(201,168,76,0.2)' : '1px solid rgba(255,255,255,0.08)'
-                  }}>{msg.text}</div>
-                </div>
               </div>
             ))}
           </div>
