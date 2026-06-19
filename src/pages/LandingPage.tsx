@@ -1,424 +1,338 @@
 import { Link } from 'react-router-dom';
 
-const features = [
-  {
-    icon: '🧭',
-    title: 'Your Mission Statement',
-    desc: 'Build a personal mission that anchors every decision — in minutes. Revisit it every morning.',
-  },
-  {
-    icon: '☀️',
-    title: 'Daily Planning Ritual',
-    desc: 'Set your top 3 priorities, define your win, and commit to daily intentions before the chaos starts.',
-  },
-  {
-    icon: '📅',
-    title: 'Weekly Role Review',
-    desc: 'Covey\'s 7 Habits in action — review every role you play and set meaningful goals for the week.',
-  },
-  {
-    icon: '🌙',
-    title: 'Evening Reflection',
-    desc: 'Close each day with gratitude, honest assessment, and clarity on what to carry into tomorrow.',
-  },
-  {
-    icon: '✨',
-    title: 'Eli — Your AI Coach',
-    desc: 'Eli knows your mission and your roles. Ask for accountability, encouragement, or a challenge.',
-  },
-  {
-    icon: '🔥',
-    title: 'Streaks & Momentum',
-    desc: 'Daily and weekly streaks keep you honest. Consistency is the discipline. Discipline is freedom.',
-  },
-];
-
-const steps = [
-  { num: '01', title: 'Write your mission', desc: 'A few fill-in-the-blank prompts and you\'ll have a personal mission statement that actually sounds like you.' },
-  { num: '02', title: 'Name your roles', desc: 'Father. Professional. Disciple. Friend. You live multiple lives — plan all of them.' },
-  { num: '03', title: 'Plan every morning', desc: 'Three priorities. One win condition. Five minutes. Day locked in.' },
-  { num: '04', title: 'Reflect every evening', desc: 'What went well, what didn\'t, what you\'re letting go. Sleep lighter.' },
-];
-
-const testimonials = [
-  { quote: 'I\'ve tried every planner. Missionly is the first one that made me feel like my whole life was accounted for — not just my work tasks.', name: 'Jordan T.', role: 'Entrepreneur & Father of 3' },
-  { quote: 'The weekly role review changed everything. I realized I was crushing it at work and failing at home. Now I balance both.', name: 'Sarah M.', role: 'Sales Manager' },
-  { quote: 'Eli pushed back on me when I was making excuses. I needed that. A planner that actually holds you accountable.', name: 'Marcus L.', role: 'Construction Business Owner' },
-];
-
 export default function LandingPage() {
   return (
     <div style={{ fontFamily: 'var(--ff-body)', color: 'var(--ink)', overflowX: 'hidden' }}>
+      <style>{`
+        .nav-link { font-size:.875rem;font-weight:500;color:#4a4a6a;text-decoration:none;transition:color .2s; }
+        .nav-link:hover { color:#1a1a2e; }
+        .nav-cta { background:#1a1a2e;color:#fff!important;padding:.5rem 1.25rem;border-radius:6px;font-size:.875rem!important;font-weight:500!important;transition:background .2s!important; }
+        .nav-cta:hover { background:#c9a84c!important;color:#1a1a2e!important; }
+        .btn-primary { background:#1a1a2e;color:#fff;padding:.875rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;text-decoration:none;transition:background .2s,transform .15s;border:2px solid transparent;display:inline-block; }
+        .btn-primary:hover { background:#c9a84c;color:#1a1a2e;transform:translateY(-1px); }
+        .btn-secondary { background:transparent;color:#1a1a2e;padding:.875rem 2rem;border-radius:8px;font-size:.95rem;font-weight:500;text-decoration:none;border:2px solid rgba(26,26,46,.2);transition:border-color .2s,transform .15s;display:inline-block; }
+        .btn-secondary:hover { border-color:#c9a84c;color:#c9a84c;transform:translateY(-1px); }
+        .how-card { background:#fff;border-radius:12px;padding:2rem;border:1px solid rgba(201,168,76,.12);transition:box-shadow .2s,transform .2s; }
+        .how-card:hover { box-shadow:0 12px 40px rgba(26,26,46,.08);transform:translateY(-3px); }
+        .feature { padding:1.5rem;border-radius:10px;border:1px solid rgba(26,26,46,.08);transition:border-color .2s; }
+        .feature:hover { border-color:#e8d5a3; }
+        .price-cta { display:block;text-align:center;padding:.875rem;border-radius:8px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .2s;border:2px solid #1a1a2e;color:#1a1a2e; }
+        .price-cta:hover { background:#1a1a2e;color:#fff; }
+        .price-cta-featured { background:#c9a84c;color:#1a1a2e;border-color:#c9a84c; }
+        .price-cta-featured:hover { background:#e8d5a3; }
+        .email-btn { background:#c9a84c;color:#1a1a2e;padding:.875rem 1.75rem;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s,transform .15s; }
+        .email-btn:hover { background:#e8d5a3;transform:translateY(-1px); }
+        .email-input { flex:1;min-width:220px;padding:.875rem 1.25rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s; }
+        .email-input::placeholder { color:rgba(255,255,255,.3); }
+        .email-input:focus { border-color:#c9a84c; }
+        @media(max-width:640px) { .nav-links-hide{display:none!important} .mockup-sidebar-hide{display:none!important} }
+      `}</style>
 
-      {/* ── NAV ── */}
+      {/* NAV */}
       <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: 'rgba(26,26,46,0.95)', backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 2rem', height: 60
+        position:'fixed',top:0,left:0,right:0,zIndex:100,
+        display:'flex',alignItems:'center',justifyContent:'space-between',
+        padding:'1.25rem 2rem',
+        background:'rgba(250,249,246,0.88)',backdropFilter:'blur(12px)',
+        borderBottom:'1px solid rgba(201,168,76,0.15)'
       }}>
-        <span style={{ fontFamily: 'var(--ff-display)', fontSize: '1.35rem', color: '#fff' }}>
-          Mission<span style={{ color: 'var(--gold)' }}>ly</span>
+        <span style={{ fontFamily:'var(--ff-display)',fontSize:'1.5rem',color:'var(--ink)',letterSpacing:'-0.01em' }}>
+          Mission<span style={{ color:'var(--gold)' }}>ly</span>
         </span>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-          <Link to="/signin" style={{ color: 'var(--mist)', textDecoration: 'none', fontSize: '0.9rem', padding: '0.5rem 0.75rem' }}>
-            Sign in
-          </Link>
-          <Link to="/signin" style={{
-            background: 'var(--gold)', color: 'var(--ink)', textDecoration: 'none',
-            padding: '0.5rem 1.25rem', borderRadius: 8, fontWeight: 600, fontSize: '0.875rem'
-          }}>
-            Get started free
-          </Link>
+        <div className="nav-links-hide" style={{ display:'flex',gap:'2rem',alignItems:'center' }}>
+          <a href="#how" className="nav-link">How it works</a>
+          <a href="#eli" className="nav-link">Meet Eli</a>
+          <a href="#pricing" className="nav-link">Pricing</a>
+          <Link to="/signin" className="nav-link nav-cta">Get early access</Link>
         </div>
       </nav>
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section style={{
-        background: 'var(--ink)', minHeight: '100vh',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        textAlign: 'center', padding: '8rem 1.5rem 5rem', position: 'relative'
+        minHeight:'100vh',display:'flex',flexDirection:'column',
+        alignItems:'center',justifyContent:'center',textAlign:'center',
+        padding:'8rem 1.5rem 5rem',position:'relative',overflow:'hidden'
       }}>
-        {/* subtle grid */}
+        {/* bg gradients */}
         <div style={{
-          position: 'absolute', inset: 0, opacity: 0.04,
-          backgroundImage: 'linear-gradient(var(--gold) 1px, transparent 1px), linear-gradient(90deg, var(--gold) 1px, transparent 1px)',
-          backgroundSize: '60px 60px', pointerEvents: 'none'
+          position:'absolute',inset:0,zIndex:0,
+          background:`radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.10) 0%, transparent 70%),
+                      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(107,143,113,0.08) 0%, transparent 60%)`
+        }} />
+        {/* compass rose rings */}
+        <div style={{
+          position:'absolute',top:'50%',left:'50%',
+          transform:'translate(-50%,-50%)',
+          width:'min(600px,90vw)',height:'min(600px,90vw)',
+          border:'1px solid rgba(201,168,76,0.12)',borderRadius:'50%',
+          boxShadow:'0 0 0 40px rgba(201,168,76,0.04),0 0 0 80px rgba(201,168,76,0.025),0 0 0 120px rgba(201,168,76,0.01)',
+          zIndex:0,pointerEvents:'none'
         }} />
 
-        <div style={{
-          display: 'inline-block', background: 'var(--gold-dim)', border: '1px solid rgba(201,168,76,0.3)',
-          borderRadius: 20, padding: '0.35rem 1rem', marginBottom: '1.75rem',
-          fontSize: '0.8rem', fontWeight: 600, color: 'var(--gold)', letterSpacing: '0.04em'
-        }}>
-          Built on Covey's 7 Habits · Powered by AI
-        </div>
-
-        <h1 style={{
-          fontFamily: 'var(--ff-display)', fontSize: 'clamp(2.75rem, 7vw, 5rem)',
-          color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem', maxWidth: 800
-        }}>
-          Live with intention.<br />
-          <span style={{ color: 'var(--gold)' }}>Lead your own life.</span>
-        </h1>
-
-        <p style={{
-          color: 'var(--mist)', fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-          lineHeight: 1.7, maxWidth: 560, marginBottom: '2.5rem'
-        }}>
-          Missionly is the daily planning system for people who want to win at work
-          <em> and</em> at home. Mission-first. Role-based. AI-coached.
-        </p>
-
-        <div style={{ display: 'flex', gap: '0.875rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3.5rem' }}>
-          <Link to="/signin" style={{
-            background: 'var(--gold)', color: 'var(--ink)', textDecoration: 'none',
-            padding: '0.9rem 2.25rem', borderRadius: 10, fontWeight: 700, fontSize: '1rem',
-            boxShadow: '0 4px 24px rgba(201,168,76,0.35)'
-          }}>
-            Start for free →
-          </Link>
-          <a href="#how-it-works" style={{
-            background: 'transparent', color: '#fff', textDecoration: 'none',
-            padding: '0.9rem 2rem', borderRadius: 10, fontWeight: 500, fontSize: '1rem',
-            border: '1px solid rgba(255,255,255,0.15)'
-          }}>
-            See how it works
-          </a>
-        </div>
-
-        {/* Dashboard preview mockup */}
-        <div style={{
-          width: '100%', maxWidth: 860,
-          background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: 16, padding: '1.5rem',
-          boxShadow: '0 40px 80px rgba(0,0,0,0.5)'
-        }}>
-          <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem' }}>
-            {['#ff5f57','#febc2e','#28c840'].map(c => (
-              <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />
-            ))}
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: '1rem', textAlign: 'left' }}>
-            <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 10, padding: '1rem' }}>
-              {['Dashboard','Daily Plan','This Week','Reflection'].map(label => (
-                <div key={label} style={{
-                  padding: '0.5rem 0.6rem', borderRadius: 6, marginBottom: 4,
-                  fontSize: '0.78rem', color: label === 'Dashboard' ? 'var(--gold)' : 'var(--mist)',
-                  background: label === 'Dashboard' ? 'rgba(201,168,76,0.12)' : 'transparent'
-                }}>{label}</div>
-              ))}
-            </div>
-            <div>
-              <div style={{ color: '#fff', fontFamily: 'var(--ff-display)', fontSize: '1.1rem', marginBottom: '0.5rem' }}>
-                Good morning, Myles
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                {['Daily Streak\n7 🔥','Weekly Streak\n3 📅','Week Progress\n68%'].map(t => {
-                  const [label, val] = t.split('\n');
-                  return (
-                    <div key={label} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 8, padding: '0.6rem 0.8rem' }}>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--mist)', marginBottom: 2 }}>{label}</div>
-                      <div style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 700 }}>{val}</div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div style={{ background: 'rgba(201,168,76,0.08)', borderRadius: 8, padding: '0.6rem 0.8rem', borderLeft: '3px solid var(--gold)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic' }}>
-                "I am a man of faith and discipline, committed to building things that last..."
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SOCIAL PROOF ── */}
-      <section style={{ background: 'var(--paper)', padding: '2.5rem 1.5rem', textAlign: 'center', borderBottom: '1px solid var(--paper-dk)' }}>
-        <p style={{ color: 'var(--mist)', fontSize: '0.825rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-          Trusted by people who want to live intentionally
-        </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2.5rem' }}>
-          {['Fathers', 'Entrepreneurs', 'Coaches', 'Sales Leaders', 'Builders'].map(g => (
-            <span key={g} style={{ color: 'var(--slate)', fontWeight: 600, fontSize: '0.95rem' }}>{g}</span>
-          ))}
-        </div>
-      </section>
-
-      {/* ── FEATURES ── */}
-      <section style={{ background: 'var(--ivory)', padding: '6rem 1.5rem' }}>
-        <div style={{ maxWidth: 1040, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'var(--ink)', marginBottom: '0.75rem' }}>
-              Everything you need to lead yourself
-            </h2>
-            <p style={{ color: 'var(--slate)', fontSize: '1.05rem', maxWidth: 520, margin: '0 auto' }}>
-              One system for your mission, your roles, your day, and your growth.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-            {features.map(f => (
-              <div key={f.title} style={{
-                background: 'var(--paper)', borderRadius: 14, padding: '1.75rem',
-                border: '1px solid var(--paper-dk)', transition: 'box-shadow 0.2s'
-              }}>
-                <div style={{ fontSize: '1.75rem', marginBottom: '0.875rem' }}>{f.icon}</div>
-                <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--ink)', marginBottom: '0.5rem' }}>{f.title}</h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--slate)', lineHeight: 1.65 }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ── */}
-      <section id="how-it-works" style={{ background: 'var(--ink)', padding: '6rem 1.5rem' }}>
-        <div style={{ maxWidth: 840, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(2rem, 5vw, 3rem)', color: '#fff', marginBottom: '0.75rem' }}>
-              Simple. Powerful. Repeatable.
-            </h2>
-            <p style={{ color: 'var(--mist)', fontSize: '1rem', maxWidth: 480, margin: '0 auto' }}>
-              Four rituals. Five minutes each. A life that reflects what you actually value.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.5rem' }}>
-            {steps.map((s, i) => (
-              <div key={s.num} style={{ textAlign: 'center', padding: '1.5rem 1rem' }}>
-                <div style={{
-                  fontFamily: 'var(--ff-display)', fontSize: '2.5rem', color: 'var(--gold)',
-                  opacity: 0.3 + i * 0.18, marginBottom: '0.75rem'
-                }}>{s.num}</div>
-                <h3 style={{ fontWeight: 700, color: '#fff', fontSize: '0.95rem', marginBottom: '0.5rem' }}>{s.title}</h3>
-                <p style={{ fontSize: '0.825rem', color: 'var(--mist)', lineHeight: 1.65 }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── ELI SECTION ── */}
-      <section style={{ background: 'var(--night)', padding: '6rem 1.5rem' }}>
-        <div style={{ maxWidth: 860, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
-          <div>
-            <div style={{
-              display: 'inline-block', background: 'var(--gold-dim)', border: '1px solid rgba(201,168,76,0.3)',
-              borderRadius: 20, padding: '0.35rem 1rem', marginBottom: '1.25rem',
-              fontSize: '0.78rem', fontWeight: 600, color: 'var(--gold)'
-            }}>Meet Eli</div>
-            <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: '#fff', marginBottom: '1rem', lineHeight: 1.2 }}>
-              Your AI coach who<br />actually knows you
-            </h2>
-            <p style={{ color: 'var(--mist)', lineHeight: 1.75, marginBottom: '1.25rem', fontSize: '0.95rem' }}>
-              Eli isn't a generic chatbot. She knows your mission statement, your roles, your weekly goals, and your priorities today. She'll encourage you, challenge your excuses, and help you think through hard decisions.
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {['Knows your mission & roles', 'Tracks your priorities and progress', 'Available any time on your dashboard', 'Speaks with honesty and warmth'].map(item => (
-                <li key={item} style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', marginBottom: '0.6rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.7)' }}>
-                  <span style={{ color: 'var(--gold)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Eli chat mockup */}
+        <div style={{ position:'relative',zIndex:1,maxWidth:760 }}>
           <div style={{
-            background: 'var(--ink)', borderRadius: 16, overflow: 'hidden',
-            border: '1px solid rgba(201,168,76,0.15)',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.4)'
+            display:'inline-flex',alignItems:'center',gap:'0.5rem',
+            fontFamily:'var(--ff-accent)',fontStyle:'italic',
+            fontSize:'0.9rem',color:'var(--gold)',letterSpacing:'0.04em',marginBottom:'1.75rem'
           }}>
+            <span style={{ display:'block',width:32,height:1,background:'#e8d5a3' }} />
+            Daily intention. Weekly clarity. A life on purpose.
+            <span style={{ display:'block',width:32,height:1,background:'#e8d5a3' }} />
+          </div>
+
+          <h1 style={{
+            fontFamily:'var(--ff-display)',fontSize:'clamp(2.8rem,7vw,5rem)',
+            lineHeight:1.08,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1.5rem'
+          }}>
+            Plan your days<br />around what<br />
+            <em style={{ fontStyle:'italic',color:'var(--gold)' }}>actually matters.</em>
+          </h1>
+
+          <p style={{
+            fontFamily:'var(--ff-accent)',fontSize:'clamp(1rem,2.5vw,1.2rem)',
+            color:'var(--slate)',maxWidth:520,margin:'0 auto 2.5rem',lineHeight:1.7
+          }}>
+            Missionly connects your daily actions to your life's mission — through roles, weekly planning, and an AI coach that holds you to it.
+          </p>
+
+          <div style={{ display:'flex',gap:'1rem',justifyContent:'center',flexWrap:'wrap' }}>
+            <Link to="/signin" className="btn-primary">Start free — no credit card</Link>
+            <a href="#how" className="btn-secondary">See how it works</a>
+          </div>
+          <p style={{ marginTop:'1.25rem',fontSize:'0.8rem',color:'var(--mist)' }}>
+            14-day Pro trial included · Free plan available forever
+          </p>
+        </div>
+
+        {/* App mockup */}
+        <div style={{ position:'relative',zIndex:1,marginTop:'4rem',width:'100%',maxWidth:820 }}>
+          <div style={{
+            background:'#fff',borderRadius:16,
+            border:'1px solid rgba(201,168,76,0.2)',
+            boxShadow:'0 32px 80px rgba(26,26,46,0.12),0 8px 24px rgba(26,26,46,0.06)',
+            overflow:'hidden'
+          }}>
+            {/* browser bar */}
             <div style={{
-              padding: '0.875rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.06)',
-              display: 'flex', alignItems: 'center', gap: '0.625rem'
+              background:'var(--paper)',padding:'0.75rem 1.25rem',
+              display:'flex',alignItems:'center',gap:'0.5rem',
+              borderBottom:'1px solid rgba(201,168,76,0.15)'
             }}>
-              <div style={{
-                width: 32, height: 32, borderRadius: '50%', background: 'var(--gold-dim)',
-                border: '1.5px solid var(--gold)', display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontWeight: 700, fontSize: '0.8rem', color: 'var(--gold)'
-              }}>E</div>
-              <div>
-                <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff' }}>Eli</div>
-                <div style={{ fontSize: '0.65rem', color: 'var(--mist)' }}>AI Planning Coach</div>
-              </div>
-              <div style={{ marginLeft: 'auto', width: 7, height: 7, borderRadius: '50%', background: 'var(--sage)', boxShadow: '0 0 6px rgba(107,143,113,0.6)' }} />
+              {[['#ff6b6b'],['#ffd93d'],['#6bcb77']].map(([c]) => (
+                <div key={c} style={{ width:10,height:10,borderRadius:'50%',background:c }} />
+              ))}
+              <span style={{ marginLeft:'0.75rem',fontSize:'0.75rem',color:'var(--mist)' }}>
+                app.missionly.co · Dashboard
+              </span>
             </div>
-            <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
-              {[
-                { role: 'eli', text: 'Good morning! You have "Finish project proposal" as your top priority — what\'s the first step you\'re taking right now?' },
-                { role: 'user', text: 'Honestly I\'m not sure where to start. It feels overwhelming.' },
-                { role: 'eli', text: 'That\'s normal. You wrote that this week\'s theme is "Focus." What\'s the one section of the proposal that moves the needle most?' },
-              ].map((msg, i) => (
-                <div key={i} style={{ display: 'flex', gap: '0.5rem', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row', alignItems: 'flex-start' }}>
+            {/* mockup body */}
+            <div style={{ display:'grid',gridTemplateColumns:'220px 1fr',minHeight:420 }}>
+              {/* sidebar */}
+              <div className="mockup-sidebar-hide" style={{ background:'var(--ink)',padding:'1.5rem 1.25rem',color:'#fff' }}>
+                <div style={{ fontFamily:'var(--ff-display)',fontSize:'1.1rem',color:'var(--gold)',marginBottom:'2rem' }}>Missionly</div>
+                <div style={{ fontSize:'0.65rem',textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--mist)',marginBottom:'0.75rem',marginTop:'1.5rem' }}>Planning</div>
+                {[['◈','Dashboard',true],['☀','Daily Plan',false],['📅','This Week',false]].map(([icon,label,active]) => (
+                  <div key={label as string} style={{
+                    display:'flex',alignItems:'center',gap:'0.625rem',
+                    padding:'0.5rem 0.625rem',borderRadius:6,marginBottom:4,fontSize:'0.8rem',
+                    color: active ? 'var(--gold)' : 'rgba(255,255,255,0.7)',
+                    background: active ? 'rgba(201,168,76,0.15)' : 'transparent'
+                  }}><span>{icon as string}</span>{label as string}</div>
+                ))}
+                <div style={{ fontSize:'0.65rem',textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--mist)',marginBottom:'0.75rem',marginTop:'1.5rem' }}>Growth</div>
+                {[['⚑','My Mission'],['◎','My Roles'],['✦','Eli (AI Coach)']].map(([icon,label]) => (
+                  <div key={label as string} style={{
+                    display:'flex',alignItems:'center',gap:'0.625rem',
+                    padding:'0.5rem 0.625rem',borderRadius:6,marginBottom:4,
+                    fontSize:'0.8rem',color:'rgba(255,255,255,0.7)'
+                  }}><span>{icon as string}</span>{label as string}</div>
+                ))}
+              </div>
+              {/* main */}
+              <div style={{ padding:'1.75rem' }}>
+                <div style={{ fontFamily:'var(--ff-display)',fontSize:'1.3rem',color:'var(--ink)',marginBottom:'0.25rem' }}>Good morning, Myles.</div>
+                <div style={{ fontSize:'0.78rem',color:'var(--mist)',marginBottom:'1.5rem' }}>Wednesday · Week 24 of 52</div>
+                <div style={{ background:'linear-gradient(135deg,var(--ink) 0%,#2d2d50 100%)',borderRadius:10,padding:'1rem 1.25rem',marginBottom:'1.25rem' }}>
+                  <div style={{ fontSize:'0.65rem',textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--gold)',marginBottom:'0.375rem' }}>✦ Your Mission</div>
+                  <div style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.82rem',color:'rgba(255,255,255,0.85)',lineHeight:1.5 }}>
+                    "To lead with integrity in every role I hold — as a father, a professional, and a disciple — building a life of purpose, not just productivity."
+                  </div>
+                </div>
+                <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.625rem',marginBottom:'1.25rem' }}>
+                  {[
+                    { name:'👨‍👧 Father', goal:'Take the kids to the park before Saturday', done:false, sage:false },
+                    { name:'💼 Professional', goal:'Complete the GRC audit report by Friday', done:true, sage:true },
+                  ].map(r => (
+                    <div key={r.name} style={{ background:'var(--paper)',borderRadius:8,padding:'0.75rem',borderLeft:`3px solid ${r.sage ? 'var(--sage)' : 'var(--gold)'}` }}>
+                      <div style={{ fontSize:'0.7rem',fontWeight:600,color:'var(--slate)',textTransform:'uppercase',letterSpacing:'0.05em',marginBottom:'0.375rem' }}>{r.name}</div>
+                      <div style={{ fontSize:'0.75rem',color:'var(--ink)',lineHeight:1.4 }}>{r.goal}</div>
+                      <div style={{ display:'flex',alignItems:'center',gap:'0.375rem',marginTop:'0.375rem' }}>
+                        <div style={{
+                          width:14,height:14,borderRadius:3,display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,
+                          border:`1.5px solid var(--gold)`,background:r.done ? 'var(--gold)' : 'transparent',color:r.done ? '#fff' : 'var(--gold)'
+                        }}>✓</div>
+                        <span style={{ fontSize:'0.68rem',color:'var(--mist)' }}>{r.done ? 'Done' : 'In progress'}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ background:'rgba(107,143,113,0.08)',border:'1px solid rgba(107,143,113,0.2)',borderRadius:8,padding:'0.875rem 1rem' }}>
+                  <div style={{ fontSize:'0.65rem',textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--sage)',marginBottom:'0.5rem' }}>☀ Today's Daily Plan</div>
+                  <div style={{ fontSize:'0.8rem',color:'var(--slate)',fontStyle:'italic',fontFamily:'var(--ff-accent)' }}>"What one thing, if done today, would make this week feel like a win?"</div>
+                  <div style={{ display:'inline-flex',alignItems:'center',gap:'0.375rem',background:'var(--ink)',color:'var(--gold)',fontSize:'0.65rem',fontWeight:600,padding:'0.25rem 0.6rem',borderRadius:20,marginTop:'0.625rem',letterSpacing:'0.04em' }}>✦ Eli · AI Coach — tap to chat</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section id="how" style={{ background:'var(--paper)',padding:'6rem 1.5rem' }}>
+        <div style={{ maxWidth:1000,margin:'0 auto' }}>
+          <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>The rhythm that works</span>
+          <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1rem' }}>Three sessions.<br />One complete day.</h2>
+          <p style={{ fontSize:'1rem',color:'var(--slate)',maxWidth:540,lineHeight:1.7 }}>Missionly is built around a simple loop that high performers and mission-driven people already know works.</p>
+          <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'2rem',marginTop:'3.5rem' }}>
+            {[
+              { icon:'☀️', time:'Morning · 5 min', title:'Daily Planning', desc:"Start with intention. Choose your top 3 priorities, connect each one to a life role, and ask Eli what you might be avoiding. Your day gets a purpose before it gets a to-do list." },
+              { icon:'📅', time:'Sunday · 15 min', title:'Weekly Planning', desc:"Set 1–2 meaningful goals for each of your life roles. Review last week honestly. Then look ahead with clarity. Your week becomes intentional, not reactive." },
+              { icon:'🌙', time:'Evening · 3 min', title:'Daily Reflection', desc:"Did you do what you planned? What carries to tomorrow? Two questions. No journaling pressure. Just honest accountability so you can rest and reset." },
+            ].map(c => (
+              <div key={c.title} className="how-card">
+                <span style={{ fontSize:'1.75rem',marginBottom:'1rem',display:'block' }}>{c.icon}</span>
+                <div style={{ fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--gold)',marginBottom:'0.75rem' }}>{c.time}</div>
+                <div style={{ fontFamily:'var(--ff-display)',fontSize:'1.3rem',color:'var(--ink)',marginBottom:'0.625rem' }}>{c.title}</div>
+                <p style={{ fontSize:'0.9rem',color:'var(--slate)',lineHeight:1.65 }}>{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section id="features" style={{ padding:'6rem 1.5rem' }}>
+        <div style={{ maxWidth:1000,margin:'0 auto' }}>
+          <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>Everything you need</span>
+          <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1rem' }}>Built for the whole life,<br />not just the work day.</h2>
+          <p style={{ fontSize:'1rem',color:'var(--slate)',maxWidth:540,lineHeight:1.7 }}>Most planners are built for productivity. Missionly is built for purpose — every feature connects back to who you're trying to become.</p>
+          <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:'1.5rem',marginTop:'3.5rem' }}>
+            {[
+              { icon:'⚑', title:'Personal Mission Builder', desc:'A guided prompt flow that helps you write your life\'s mission statement in under 10 minutes. Not a blank text box — a real process.' },
+              { icon:'◎', title:'Life Roles Framework', desc:'Define the roles that matter — Father, Husband, Professional, Disciple. Set goals within each role so no part of your life gets neglected.' },
+              { icon:'☀', title:'Daily Planning Session', desc:'A structured morning ritual with guided prompts — not a blank page. Connect today\'s priorities to this week\'s roles before the day pulls you off course.' },
+              { icon:'📅', title:'Weekly Planning & Review', desc:'Your Sunday session prompts you to review last week, carry over unfinished goals, and set clear intentions for the week ahead.' },
+              { icon:'📈', title:'Progress & Streaks', desc:'See your consistency across roles and weeks. Spot patterns. Know which roles keep getting neglected before it becomes a problem.' },
+              { icon:'✦', title:'Eli — Your AI Coach', desc:'Not a chatbot. An AI coach that knows your mission, roles, and weekly goals — and asks the questions that actually move you forward.' },
+            ].map(f => (
+              <div key={f.title} className="feature">
+                <span style={{ fontSize:'1.4rem',marginBottom:'0.75rem',display:'block' }}>{f.icon}</span>
+                <div style={{ fontWeight:600,fontSize:'0.95rem',color:'var(--ink)',marginBottom:'0.375rem' }}>{f.title}</div>
+                <p style={{ fontSize:'0.875rem',color:'var(--slate)',lineHeight:1.6 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ELI SECTION */}
+      <section id="eli" style={{ background:'var(--ink)',padding:'6rem 1.5rem' }}>
+        <div style={{ maxWidth:1000,margin:'0 auto' }}>
+          <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>Meet your coach</span>
+          <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'#fff',marginBottom:'1rem' }}>Eli knows your mission.<br />He won't let you forget it.</h2>
+          <p style={{ fontSize:'1rem',color:'rgba(255,255,255,0.6)',maxWidth:540,lineHeight:1.7 }}>Eli isn't a generic AI assistant. He's trained on your roles, your goals, and your weekly commitments — so every conversation is specific to your life, not someone else's.</p>
+          <div style={{ background:'rgba(255,255,255,0.04)',border:'1px solid rgba(201,168,76,0.2)',borderRadius:14,padding:'2rem',marginTop:'3rem',maxWidth:600 }}>
+            {[
+              { user:false, text:"Good morning. You said your #1 father goal this week was to take your kids to the park before Saturday. It's Wednesday — how's that looking?" },
+              { user:true,  text:"Honestly I keep pushing it. Work has been crazy." },
+              { user:false, text:"Work will always be there. Your mission statement says you want to lead with integrity in every role — not just the professional one. What would it take to make Thursday evening work?" },
+            ].map((msg, i) => (
+              <div key={i} style={{ display:'flex',gap:'0.875rem',marginBottom:'1.25rem',alignItems:'flex-start',flexDirection: msg.user ? 'row-reverse' : 'row' }}>
+                <div style={{
+                  width:34,height:34,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',
+                  fontSize:'0.75rem',fontWeight:700,flexShrink:0,
+                  background: msg.user ? 'rgba(255,255,255,0.1)' : 'var(--gold)',
+                  color: msg.user ? 'rgba(255,255,255,0.7)' : 'var(--ink)'
+                }}>{msg.user ? 'M' : 'E'}</div>
+                <div>
+                  <div style={{ fontSize:'0.68rem',fontWeight:600,letterSpacing:'0.05em',marginBottom:'0.35rem',color: msg.user ? 'rgba(255,255,255,0.4)' : 'var(--gold)',textAlign: msg.user ? 'right' : 'left' }}>
+                    {msg.user ? 'You' : 'Eli · AI Coach'}
+                  </div>
                   <div style={{
-                    width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
-                    background: msg.role === 'eli' ? 'var(--gold-dim)' : 'rgba(255,255,255,0.08)',
-                    border: msg.role === 'eli' ? '1px solid rgba(201,168,76,0.3)' : '1px solid rgba(255,255,255,0.1)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '0.6rem', fontWeight: 700, color: msg.role === 'eli' ? 'var(--gold)' : 'rgba(255,255,255,0.5)'
-                  }}>{msg.role === 'eli' ? 'E' : 'M'}</div>
-                  <div style={{
-                    maxWidth: '80%', padding: '0.6rem 0.75rem', borderRadius: 10,
-                    fontSize: '0.775rem', lineHeight: 1.55,
-                    background: msg.role === 'eli' ? 'rgba(255,255,255,0.06)' : 'rgba(201,168,76,0.1)',
-                    border: msg.role === 'eli' ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(201,168,76,0.18)',
-                    color: 'rgba(255,255,255,0.8)',
-                    fontStyle: msg.role === 'eli' ? 'italic' : 'normal',
-                    fontFamily: msg.role === 'eli' ? 'var(--ff-accent)' : 'var(--ff-body)'
+                    borderRadius:10,padding:'0.75rem 1rem',fontSize:'0.875rem',color:'rgba(255,255,255,0.85)',lineHeight:1.55,maxWidth:380,
+                    background: msg.user ? 'rgba(201,168,76,0.12)' : 'rgba(255,255,255,0.06)',
+                    border: msg.user ? '1px solid rgba(201,168,76,0.2)' : '1px solid rgba(255,255,255,0.08)'
                   }}>{msg.text}</div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ── */}
-      <section style={{ background: 'var(--ivory)', padding: '6rem 1.5rem' }}>
-        <div style={{ maxWidth: 1040, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: 'var(--ink)', textAlign: 'center', marginBottom: '3rem' }}>
-            What users are saying
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-            {testimonials.map(t => (
-              <div key={t.name} style={{
-                background: 'var(--paper)', borderRadius: 14, padding: '1.75rem',
-                border: '1px solid var(--paper-dk)', display: 'flex', flexDirection: 'column', gap: '1.25rem'
-              }}>
-                <div style={{ color: 'var(--gold)', fontSize: '1.5rem' }}>❝</div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--slate)', lineHeight: 1.7, fontStyle: 'italic', fontFamily: 'var(--ff-accent)', flex: 1 }}>
-                  {t.quote}
-                </p>
-                <div>
-                  <div style={{ fontWeight: 700, color: 'var(--ink)', fontSize: '0.875rem' }}>{t.name}</div>
-                  <div style={{ color: 'var(--mist)', fontSize: '0.78rem' }}>{t.role}</div>
-                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── PRICING ── */}
-      <section style={{ background: 'var(--paper)', padding: '6rem 1.5rem', borderTop: '1px solid var(--paper-dk)' }}>
-        <div style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: 'var(--ink)', marginBottom: '0.75rem' }}>
-            Simple pricing
-          </h2>
-          <p style={{ color: 'var(--slate)', marginBottom: '2.5rem', fontSize: '0.95rem' }}>One plan. Everything included. Cancel anytime.</p>
-          <div style={{
-            background: 'var(--ink)', borderRadius: 16, padding: '2.5rem 2rem',
-            border: '1px solid rgba(201,168,76,0.2)', boxShadow: '0 8px 40px rgba(0,0,0,0.15)'
-          }}>
-            <div style={{ color: 'var(--gold)', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-              Missionly Pro
+      {/* PRICING */}
+      <section id="pricing" style={{ background:'var(--paper)',padding:'6rem 1.5rem' }}>
+        <div style={{ maxWidth:1000,margin:'0 auto' }}>
+          <span style={{ fontFamily:'var(--ff-accent)',fontStyle:'italic',fontSize:'0.85rem',color:'var(--gold)',letterSpacing:'0.06em',display:'block',marginBottom:'0.75rem' }}>Simple pricing</span>
+          <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'var(--ink)',marginBottom:'1rem' }}>Start free.<br />Upgrade when you're ready.</h2>
+          <p style={{ fontSize:'1rem',color:'var(--slate)',maxWidth:540,lineHeight:1.7 }}>No credit card to get started. Pro unlocks Eli, history, and the full planning loop.</p>
+          <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'1.5rem',marginTop:'3.5rem',maxWidth:700 }}>
+            {/* Free */}
+            <div style={{ background:'#fff',borderRadius:14,padding:'2rem',border:'1px solid rgba(26,26,46,0.1)' }}>
+              <div style={{ fontSize:'0.75rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--mist)',marginBottom:'0.5rem' }}>Free</div>
+              <div style={{ fontFamily:'var(--ff-display)',fontSize:'2.5rem',color:'var(--ink)',lineHeight:1,marginBottom:'0.25rem' }}>$0</div>
+              <div style={{ fontSize:'0.8rem',color:'var(--mist)',marginBottom:'1.5rem' }}>forever</div>
+              <ul style={{ listStyle:'none',padding:0,marginBottom:'2rem' }}>
+                {['Mission statement builder','Life roles setup','Weekly planning session','Current week only'].map(item => (
+                  <li key={item} style={{ display:'flex',gap:'0.625rem',alignItems:'flex-start',fontSize:'0.875rem',color:'var(--slate)',padding:'0.375rem 0',borderBottom:'1px solid rgba(26,26,46,0.05)' }}>
+                    <span style={{ color:'var(--sage)',fontWeight:700,flexShrink:0 }}>✓</span>{item}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/signin" className="price-cta">Get started free</Link>
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '0.25rem', marginBottom: '0.5rem' }}>
-              <span style={{ fontFamily: 'var(--ff-display)', fontSize: '3.5rem', color: '#fff' }}>$9</span>
-              <span style={{ color: 'var(--mist)', fontSize: '0.9rem' }}>/month</span>
+            {/* Pro */}
+            <div style={{ background:'var(--ink)',borderRadius:14,padding:'2rem',border:'1px solid var(--gold)',position:'relative' }}>
+              <div style={{ position:'absolute',top:-12,left:'50%',transform:'translateX(-50%)',background:'var(--gold)',color:'var(--ink)',fontSize:'0.7rem',fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',padding:'0.25rem 0.875rem',borderRadius:20 }}>Most Popular</div>
+              <div style={{ fontSize:'0.75rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--gold)',marginBottom:'0.5rem' }}>Pro</div>
+              <div style={{ fontFamily:'var(--ff-display)',fontSize:'2.5rem',color:'#fff',lineHeight:1,marginBottom:'0.25rem' }}>$9</div>
+              <div style={{ fontSize:'0.8rem',color:'rgba(255,255,255,0.4)',marginBottom:'1.5rem' }}>per month · cancel anytime</div>
+              <ul style={{ listStyle:'none',padding:0,marginBottom:'2rem' }}>
+                {['Everything in Free','Daily planning + reflection','Eli AI coach (full access)','Planning history & streaks','Weekly review prompts','14-day free trial'].map(item => (
+                  <li key={item} style={{ display:'flex',gap:'0.625rem',alignItems:'flex-start',fontSize:'0.875rem',color:'rgba(255,255,255,0.7)',padding:'0.375rem 0',borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
+                    <span style={{ color:'var(--gold)',fontWeight:700,flexShrink:0 }}>✓</span>{item}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/signin" className="price-cta price-cta-featured">Start 14-day trial</Link>
             </div>
-            <p style={{ color: 'var(--mist)', fontSize: '0.825rem', marginBottom: '2rem' }}>Or $79/year — save two months free</p>
-            <ul style={{ listStyle: 'none', padding: 0, marginBottom: '2rem', textAlign: 'left' }}>
-              {[
-                'Daily & weekly planning system',
-                'Mission statement builder',
-                'Role-based goal tracking',
-                'Evening reflection journal',
-                'Eli AI coach — unlimited chats',
-                'Streak tracking & momentum',
-                'Web app — works on any device',
-              ].map(item => (
-                <li key={item} style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', marginBottom: '0.75rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.75)' }}>
-                  <span style={{ color: 'var(--gold)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <Link to="/signin" style={{
-              display: 'block', background: 'var(--gold)', color: 'var(--ink)',
-              textDecoration: 'none', padding: '0.9rem', borderRadius: 10,
-              fontWeight: 700, fontSize: '0.95rem', textAlign: 'center'
-            }}>
-              Start free — no card required
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section style={{ background: 'var(--ink)', padding: '7rem 1.5rem', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: '#fff', lineHeight: 1.15, marginBottom: '1.25rem', maxWidth: 600, margin: '0 auto 1.25rem' }}>
-          Your life won't plan itself.
-        </h2>
-        <p style={{ color: 'var(--mist)', fontSize: '1rem', marginBottom: '2.25rem', maxWidth: 440, margin: '0 auto 2.25rem' }}>
-          Five minutes in the morning changes everything. Start today.
-        </p>
-        <Link to="/signin" style={{
-          display: 'inline-block', background: 'var(--gold)', color: 'var(--ink)',
-          textDecoration: 'none', padding: '1rem 2.75rem', borderRadius: 10,
-          fontWeight: 700, fontSize: '1.05rem', boxShadow: '0 4px 24px rgba(201,168,76,0.35)'
-        }}>
-          Get started — it's free →
-        </Link>
-        <p style={{ color: 'var(--mist)', fontSize: '0.78rem', marginTop: '1rem' }}>
-          No credit card required · Cancel anytime
-        </p>
+      {/* EMAIL CAPTURE */}
+      <section id="early" style={{ padding:'6rem 1.5rem',textAlign:'center' }}>
+        <div style={{ maxWidth:1000,margin:'0 auto' }}>
+          <div style={{ background:'var(--ink)',borderRadius:20,padding:'4rem 2rem',position:'relative',overflow:'hidden' }}>
+            <div style={{ position:'absolute',top:-80,right:-80,width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(201,168,76,0.12),transparent 70%)',pointerEvents:'none' }} />
+            <h2 style={{ fontFamily:'var(--ff-display)',fontSize:'clamp(2rem,4vw,2.75rem)',lineHeight:1.15,letterSpacing:'-0.02em',color:'#fff',marginBottom:'1rem' }}>Be first in.</h2>
+            <p style={{ fontSize:'1rem',color:'rgba(255,255,255,0.55)',maxWidth:440,lineHeight:1.7,margin:'0.75rem auto 2.5rem' }}>
+              Missionly is in early access. Join the list and get lifetime Pro pricing locked in before we launch publicly.
+            </p>
+            <div style={{ display:'flex',gap:'0.75rem',maxWidth:460,margin:'0 auto',flexWrap:'wrap',justifyContent:'center' }}>
+              <input className="email-input" type="email" placeholder="your@email.com" />
+              <button className="email-btn">Get early access</button>
+            </div>
+            <p style={{ fontSize:'0.75rem',color:'rgba(255,255,255,0.3)',marginTop:'1rem' }}>No spam. Just a note when we're ready for you.</p>
+          </div>
+        </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{ background: 'var(--night)', padding: '2rem 1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-        <span style={{ fontFamily: 'var(--ff-display)', fontSize: '1.1rem', color: '#fff' }}>
-          Mission<span style={{ color: 'var(--gold)' }}>ly</span>
-        </span>
-        <p style={{ color: 'var(--mist)', fontSize: '0.78rem' }}>
-          © {new Date().getFullYear()} Missionly · Built for people who lead themselves
-        </p>
-        <div style={{ display: 'flex', gap: '1.25rem' }}>
-          <Link to="/signin" style={{ color: 'var(--mist)', textDecoration: 'none', fontSize: '0.8rem' }}>Sign in</Link>
-          <a href="mailto:myles.wanczyk@gmail.com" style={{ color: 'var(--mist)', textDecoration: 'none', fontSize: '0.8rem' }}>Contact</a>
-        </div>
+      {/* FOOTER */}
+      <footer style={{ background:'var(--ink)',borderTop:'1px solid rgba(255,255,255,0.06)',padding:'2.5rem 1.5rem',textAlign:'center' }}>
+        <div style={{ fontFamily:'var(--ff-display)',fontSize:'1.25rem',color:'var(--gold)',marginBottom:'0.5rem' }}>Missionly</div>
+        <p style={{ fontSize:'0.8rem',color:'rgba(255,255,255,0.3)' }}>© {new Date().getFullYear()} Missionly · Built with purpose.</p>
       </footer>
-
     </div>
   );
 }
