@@ -147,31 +147,31 @@ export const getEliOpener = (
 
   if (sessionType === 'daily') {
     if (donePct === 100) {
-      return `${name}. Clean sweep yesterday — ${yesterday.length} for ${yesterday.length}. What are you building on that momentum today?`;
+      return `Good morning, ${name}. Clean sweep yesterday — let's keep that going. What's the one thing that has to happen today?`;
     }
     if (donePct !== null && donePct < 60 && missedYesterday.length > 0) {
-      return `${name}. Yesterday you left "${missedYesterday[0].text}" unfinished. Is that carrying forward today, or are you letting it go?`;
+      return `Morning, ${name}. You left "${missedYesterday[0].text}" unfinished yesterday. Are we carrying that forward or starting fresh?`;
     }
     if (donePct !== null) {
-      return `${name}. ${donePct}% yesterday. Day ${streakDaily + 1} — what's the one thing that absolutely has to happen today?`;
+      return `Morning, ${name}. ${donePct}% yesterday — what's the most important thing on your plate today?`;
     }
-    return `${name}. Day ${streakDaily + 1} starts now. What's the one thing that absolutely has to happen today?`;
+    return `Morning, ${name}. What's the one thing that has to happen today?`;
   }
 
   if (sessionType === 'weekly') {
-    return `${name}. Before we plan the week ahead — how honest are you willing to be about last week?`;
+    return `Hey ${name}. Before we plan ahead — how honest are you willing to be about last week?`;
   }
 
   if (sessionType === 'reflection') {
     if (donePct !== null) {
-      return `${name}. ${donePct}% on your priorities today. Before you close out — what's the real story behind that number?`;
+      return `Hey ${name}. ${donePct}% on your priorities today. What's the real story behind that number?`;
     }
-    return `${name}. Day ${streakDaily} is almost done. Before you close it out — how are you actually feeling right now?`;
+    return `Hey ${name}. How did today actually go?`;
   }
 
   // dashboard
-  if (streakDaily > 0) {
-    return `${name}. ${streakDaily}-day streak. Your mission is still true today. What do you need from me?`;
+  if (streakDaily > 1) {
+    return `Hey ${name}, ${streakDaily} days in a row. What's on your mind?`;
   }
-  return `${name}. Your mission is still true today. What do you need from me?`;
+  return `Hey ${name}. What can I help you with today?`;
 };
