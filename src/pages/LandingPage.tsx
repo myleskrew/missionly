@@ -1,8 +1,22 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 export default function LandingPage() {
   const [annual, setAnnual] = useState(false);
+  const [email, setEmail] = useState('');
+  const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleEarlyAccess = async () => {
+    if (!email.trim() || !email.includes('@')) return;
+    setSubmitState('loading');
+    const { error } = await supabase.from('early_access').insert({ email: email.trim().toLowerCase() });
+    if (error && error.code !== '23505') { // 23505 = duplicate, treat as success
+      setSubmitState('error');
+    } else {
+      setSubmitState('success');
+    }
+  };
   return (
     <div style={{ fontFamily: 'var(--ff-body)', color: 'var(--ink)', overflowX: 'hidden' }}>
       <style>{`
@@ -414,11 +428,39 @@ export default function LandingPage() {
             <p style={{ fontSize:'1rem',color:'rgba(255,255,255,0.55)',maxWidth:440,lineHeight:1.7,margin:'0.75rem auto 2.5rem' }}>
               Missionly is in early access. Join the list and get lifetime Pro pricing locked in before we launch publicly.
             </p>
-            <div className="email-form-wrap" style={{ display:'flex',gap:'0.75rem',maxWidth:460,margin:'0 auto',flexWrap:'wrap',justifyContent:'center' }}>
-              <input className="email-input" type="email" placeholder="your@email.com" />
-              <button className="email-btn">Get early access</button>
-            </div>
-            <p style={{ fontSize:'0.75rem',color:'rgba(255,255,255,0.3)',marginTop:'1rem' }}>No spam. Just a note when we're ready for you.</p>
+            {submitState === 'success' ? (
+              <div style={{ display:'flex',flexDirection:'column',alignItems:'center',gap:'0.75rem',marginTop:'0.5rem' }}>
+                <div style={{ width:48,height:48,borderRadius:'50%',background:'var(--sage)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.4rem' }}>✓</div>
+                <p style={{ color:'#fff',fontWeight:600,fontSize:'1rem' }}>You're on the list!</p>
+                <p style={{ color:'rgba(255,255,255,0.45)',fontSize:'0.825rem' }}>We'll reach out when early access opens.</p>
+              </div>
+            ) : (
+              <>
+                <div className="email-form-wrap" style={{ display:'flex',gap:'0.75rem',maxWidth:460,margin:'0 auto',flexWrap:'wrap',justifyContent:'center' }}>
+                  <input
+                    className="email-input"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleEarlyAccess()}
+                    disabled={submitState === 'loading'}
+                  />
+                  <button
+                    className="email-btn"
+                    onClick={handleEarlyAccess}
+                    disabled={submitState === 'loading'}
+                    style={{ opacity: submitState === 'loading' ? 0.7 : 1 }}
+                  >
+                    {submitState === 'loading' ? 'Saving...' : 'Get early access'}
+                  </button>
+                </div>
+                {submitState === 'error' && (
+                  <p style={{ color:'#f87171',fontSize:'0.8rem',marginTop:'0.75rem' }}>Something went wrong — try again.</p>
+                )}
+                <p style={{ fontSize:'0.75rem',color:'rgba(255,255,255,0.3)',marginTop:'1rem' }}>No spam. Just a note when we're ready for you.</p>
+              </>
+            )}
           </div>
         </div>
       </section>
