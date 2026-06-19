@@ -134,7 +134,8 @@ export const getEliOpener = (
   sessionType: 'daily' | 'weekly' | 'reflection' | 'dashboard',
   ctx: Partial<EliContext>
 ): string => {
-  const name = ctx.user?.name?.split(' ')[0] || 'there';
+  const rawName = ctx.user?.name || ctx.user?.email?.split('@')[0] || '';
+  const name = rawName.split(' ')[0] || 'friend';
   const streakDaily = ctx.user?.streakDaily || 0;
 
   const yesterday = ctx.yesterdayPriorities || [];
